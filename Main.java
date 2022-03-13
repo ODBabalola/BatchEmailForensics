@@ -100,25 +100,24 @@ public class Main {
 
                 if (data.matches("To:.*")) {
                     if (data.contains(",")) {
-                        parseMail(data, sentTos);
 
                         boolean loop = true;
                         while (myReader.hasNextLine() && loop) {
-                            String secondaryData = myReader.nextLine();
-                            if (secondaryData.contains(",")) {
+                            if (data.contains(",")) {
                                 parseMail(data, sentTos);
                             }
-                            else if (secondaryData.contains("<")) {
-                                temp = secondaryData.split("<");
+                            else if (data.contains("<")) {
+                                temp = data.split("<");
                                 sentTos.add(temp[1].replace(">", "").trim());
                             }
                             else {
-                                if (secondaryData.contains(":")) {
+                                if (data.contains(":")) {
                                     loop = false;
                                 } else {
-                                    sentTos.add(secondaryData.trim());
+                                    sentTos.add(data.trim());
                                 }
                             }
+                            data = myReader.nextLine(); //*
                         }
                     }
                     else if (data.contains("<")) {
