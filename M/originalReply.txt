@@ -1,0 +1,135 @@
+MIME-Version: 1.0
+Date: Fri, 4 Mar 2022 19:49:31 +0200
+References: <CAG787w8RnKGEE1sPUrK=us5Gz0SArXtj0eJUwhcYyh-fdC8h1g@mail.gmail.com>
+In-Reply-To: <CAG787w8RnKGEE1sPUrK=us5Gz0SArXtj0eJUwhcYyh-fdC8h1g@mail.gmail.com>
+Message-ID: <CAMsre4qcu-qmFNOYVW6VZpSfcSxPMrks+Fq9DUHmdBadyvryOQ@mail.gmail.com>
+Subject: Re: COS332 assistant work
+From: Oluwatokesi Babalola <u18041494@tuks.co.za>
+To: Martin Olivier <molivier@cs.up.ac.za>
+Cc: "Mrs. Rachel Kufakunesu" <rkufakunesu@gmail.com>, 
+	"Mr. Lionel Ntiranyibagira" <u19300001@tuks.co.za>, "Mr. Peter Okumbe" <u18052640@tuks.co.za>
+Content-Type: multipart/alternative; boundary="0000000000001db05605d9682320"
+
+--0000000000001db05605d9682320
+Content-Type: text/plain; charset="UTF-8"
+
+Good Day Sir
+
+I am available for Friday sessions and possible Thursday sessions.
+
+Regards
+Daniel Babalola
+
+On Fri, 4 Mar 2022 at 14:01, Martin Olivier <molivier@cs.up.ac.za> wrote:
+
+> Dear COS332 assistants (or "tutors"),
+>
+> I'm not sure whether any of you have made it yet entirely through the
+> appointment system.  The system does all sorts of funny things.  I think
+> I'm supposed to click on something now, but there is nowhere to click (and
+> some colleagues are stuck too).  However, we will persist and somehow get
+> you appointed.
+>
+> My initial plan was to have most of the demonstrations in the Tuesday
+> afternoon slots (16:30-19:20), and I therefore avoided applicants who were
+> enrolled for COS720.  However, based on this logic I should have avoided
+> applicants taking COS783.  (Oops.)  In any case, there simply were not
+> enough good applications so that I can afford to avoid any qualified
+> applicant.
+>
+> As you probably know, the official time slots are Tuesdays, 16:30-19:20
+> and Fridays, 7;30-10:20.
+>
+> So, I played with the following idea: Appoint most of you for the Tuesday
+> session (which may no longer be feasible, given many of your schedules).
+> This would allow most of the students to demo in the Informatorium.  Then
+> find some alternative slot at a more convenient time, find a venue, and
+> require students who want to use that slot to demo using their own laptops
+> or other equipment.  This would cater for students who do not have laptops,
+> and avoid the 7:30 slot on Fridays.
+>
+> I will talk to the students on Monday to determine how many really need to
+> demo in the Informatorium. If there are not too many, the plan may still
+> work.  I will also begin to find an alternative three hour slot that will
+> work for most of the class and many of you.  The odds are that a slot at a
+> reasonable time (somewhere between 12:30 and 16:20) on Thursdays (or even
+> Friday mornings, about 9:30 to 12:20) would work.
+>
+> In the meantime, will you please indicate whether you are available during
+> the Tuesday slot, so that I have some data to work with?  Please also
+> indicate if you foresee a problem on Thursdays or Fridays for the indicated
+> times.
+>
+> I also attach the schedule.  Demonstrations will only take place during
+> those weeks when assignments are due.
+>
+> Thank you for your willingness to assist (and, in a case or two, to
+> reconsider helping).
+>
+> Regards
+> Martin Olivier
+>
+>
+> This message and attachments are subject to a disclaimer.
+> Please refer to
+> http://upnet.up.ac.za/services/it/documentation/docs/004167.pdf for full
+> details.
+>
+
+--0000000000001db05605d9682320
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Good Day Sir<div><br></div><div>I am available for Friday =
+sessions and possible Thursday sessions.</div><div><br></div><div>Regards</=
+div><div>Daniel Babalola</div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, 4 Mar 2022 at 14:01, Martin Olivier &=
+lt;<a href=3D"mailto:molivier@cs.up.ac.za">molivier@cs.up.ac.za</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"=
+ltr"><div>Dear COS332 assistants (or &quot;tutors&quot;),</div><div><br></d=
+iv><div>I&#39;m not sure whether any of you have made it yet entirely throu=
+gh the appointment system.=C2=A0 The system does all sorts of funny things.=
+=C2=A0 I think I&#39;m supposed to click on something now, but there is now=
+here to click (and some colleagues are stuck too).=C2=A0 However, we will p=
+ersist and somehow get you appointed.</div><div><br></div><div>My initial p=
+lan was to have most of the demonstrations in the Tuesday afternoon slots (=
+16:30-19:20), and I therefore avoided applicants who were enrolled for COS7=
+20.=C2=A0 However, based on this logic I should have avoided applicants tak=
+ing COS783.=C2=A0 (Oops.)=C2=A0 In any case, there simply were not enough g=
+ood applications so that I can afford to avoid any qualified applicant.=C2=
+=A0</div><div><br></div><div>As you probably know, the official time slots =
+are Tuesdays, 16:30-19:20 and Fridays, 7;30-10:20.</div><div><br></div><div=
+>So, I played with the following idea: Appoint most of you for the Tuesday =
+session (which may no longer be feasible, given many of your schedules).=C2=
+=A0 This would allow most of the students to demo in the Informatorium.=C2=
+=A0 Then find some alternative slot at a more convenient time, find a venue=
+, and require students who want to use that slot to demo using their own la=
+ptops or other equipment.=C2=A0 This would cater for students who do not ha=
+ve laptops, and avoid the 7:30 slot on Fridays.</div><div><br></div><div>I =
+will talk to the students on Monday to determine how many really need to de=
+mo in the Informatorium. If there are not too many, the plan may still work=
+.=C2=A0 I will also begin to find an alternative three hour slot that will =
+work for most of the class and many of you.=C2=A0 The odds are that a slot =
+at a reasonable time (somewhere between 12:30 and 16:20) on Thursdays (or e=
+ven Friday mornings, about 9:30 to 12:20) would work.<br></div><div><br></d=
+iv><div>In the meantime, will you please indicate whether you are available=
+ during the Tuesday slot, so that I have some data to work with?=C2=A0 Plea=
+se also indicate if you foresee a problem on Thursdays or Fridays for the i=
+ndicated times.<br></div><div><br></div><div>I also attach the schedule.=C2=
+=A0 Demonstrations will only take place during those weeks when assignments=
+ are due.</div><div><br></div><div>Thank you for your willingness to assist=
+ (and, in a case or two, to reconsider helping).</div><div><br></div><div>R=
+egards</div><div>Martin Olivier<br></div><div><br></div></div>
+
+<br>
+<div style=3D"font-family:Arial,Helvetica,sans-serif"><span style=3D"font-s=
+ize:10pt;line-height:105%;font-family:&quot;Segoe UI&quot;,sans-serif">This=
+ message and attachments are subject to a disclaimer.<br>
+Please refer to=C2=A0<a href=3D"http://upnet.up.ac.za/services/it/documenta=
+tion/docs/004167.pdf" target=3D"_blank">http://upnet.up.ac.za/services/it/d=
+ocumentation/docs/004167.pdf</a>=C2=A0</span><span style=3D"font-size:10pt;=
+line-height:105%;font-family:Tahoma,sans-serif">for
+full details.</span></div></blockquote></div>
+
+--0000000000001db05605d9682320--
