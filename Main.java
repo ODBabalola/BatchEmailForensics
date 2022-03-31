@@ -6,8 +6,11 @@ import java.util.Date;  // Import the Data class
 import java.text.SimpleDateFormat; // Import this class to format string dates
 import java.text.ParseException; // Import class for parse exception
 
-
 public class Main {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+
     private static String getFromAddress(String fName) {
         String address = null;
         String[] temp;
@@ -168,6 +171,44 @@ public class Main {
         String fromAddress2 = getFromAddress(f2);
         Date date2 = getDate(f2);
         ArrayList<String> S2 = getToAddress(f2);
+
+        System.out.println("=================================================");
+        boolean validSent = false;
+        for (String sent : S) {
+            if (sent.equals(fromAddress2)) {
+                validSent = true;
+                System.out.println(ANSI_GREEN + "✓ The first emails 'to address' contains the" +
+                        " corresponding email's 'from address':" + sent + ANSI_RESET);
+            }
+        }
+
+        if (!validSent) {
+            System.out.println(ANSI_RED + "x The first email's 'to address' does not contain " +
+                    "the corresponding email's address" + ANSI_RESET);
+        }
+
+        boolean valid = false;
+        for (String s : S2) {
+            if (s.equals(fromAddress)) {
+                valid = true;
+                System.out.println(ANSI_GREEN + "✓ The first email's 'from address' and corresponding email's " +
+                        "'to address' are equivalent: " + s + ANSI_RESET);
+            }
+        }
+
+        if (!valid) {
+            System.out.println(ANSI_RED + "x The first email's 'from address' and corresponding email's 'to address' " +
+                    "are not equivalent" + ANSI_RESET);
+        }
+
+        if (date2.compareTo(date) > 0) {
+            System.out.println(ANSI_GREEN + "✓ The date from the corresponding email occurs after the first email"
+                     + ANSI_RESET);
+        } else {
+            System.out.println(ANSI_RED + "x The date from the corresponding email does not occur " +
+                    "after the first email" + ANSI_RESET);
+        }
+        System.out.println("=================================================");
     }
 
     public static void main(String[] args) {
@@ -188,5 +229,7 @@ public class Main {
         System.out.println("=================================================");
 
         printAttributes(fileName2);
+
+        checkReply(fileName, fileName2);
     }
 }
