@@ -141,16 +141,8 @@ public class Main {
         return sentTos;
     }
 
-    public static void main(String[] args) {
-        System.out.println("=================================================");
-        System.out.println("Program Starting....");
-        System.out.println("=================================================");
-
-        Scanner userInput = new Scanner(System.in); // Create a Scanner object
-        System.out.println("Enter email text file name, eg. 'email1.txt':");
-        String fileName = userInput.nextLine(); // Read user input
-        System.out.println("=================================================");
-
+    private static void printAttributes(String fileName) {
+        // Extract core attributes from first email
         String fromAddress = getFromAddress(fileName);
         Date date = getDate(fileName);
         ArrayList<String> S = getToAddress(fileName);
@@ -166,5 +158,35 @@ public class Main {
             }
         }
         System.out.println();
+    }
+
+    private static void checkReply(String f1, String f2) {
+        String fromAddress = getFromAddress(f1);
+        Date date = getDate(f1);
+        ArrayList<String> S = getToAddress(f1);
+
+        String fromAddress2 = getFromAddress(f2);
+        Date date2 = getDate(f2);
+        ArrayList<String> S2 = getToAddress(f2);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("=================================================");
+        System.out.println("Program Starting....");
+        System.out.println("=================================================");
+
+        Scanner userInput = new Scanner(System.in); // Create a Scanner object
+        System.out.println("Enter the file name for the first email (eg. 'email1.txt'):");
+        String fileName = userInput.nextLine(); // Read user input
+        System.out.println("=================================================");
+
+       printAttributes(fileName);
+
+        System.out.println("=================================================");
+        System.out.println("Enter the file name for the second email:");
+        String fileName2 = userInput.nextLine(); // Read user input
+        System.out.println("=================================================");
+
+        printAttributes(fileName2);
     }
 }
