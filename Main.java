@@ -249,8 +249,37 @@ public class Main {
         return 1.0;
     }
 
-    private static String sentMessage(String fName) {
-        return "";
+    private static String getSentMessage(String fName) {
+        StringBuilder message = new StringBuilder();
+
+        try {
+            File myObj = new File(fName);
+            Scanner myReader = new Scanner(myObj);
+
+            // Reading and processing the input
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+               if (data.contains("Content-Type: text/")) {
+                   while (myReader.hasNextLine()) {
+                       data = myReader.nextLine();
+                       if (!data.contains("Content-Transfer-Encoding") && !data.contains("--")) {
+                           data += " ";
+                           message.append(data);
+                       }
+                       else if (data.contains("--")) {
+                           return message.toString().trim();
+                       }
+                   }
+               }
+            }
+
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An Error Occurred.");
+            e.printStackTrace();
+        }
+        return message.toString().trim();
     }
 
     public static void main(String[] args) {
@@ -266,6 +295,10 @@ public class Main {
        printAttributes(fileName);
 
         System.out.println("=================================================");
+        System.out.println(getSentMessage(fileName));
+
+        /*
+        System.out.println("=================================================");
         System.out.println("Enter the file name for the second email:");
         String fileName2 = userInput.nextLine(); // Read user input
         System.out.println("=================================================");
@@ -273,5 +306,7 @@ public class Main {
         printAttributes(fileName2);
 
         checkReply(fileName, fileName2);
+        */
+
     }
 }
