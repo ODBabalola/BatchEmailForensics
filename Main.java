@@ -283,6 +283,40 @@ public class Main {
         return message.toString().trim();
     }
 
+    private static String getQuotedReply(String fName) {
+        StringBuilder reply = new StringBuilder();
+
+        try {
+            File myObj = new File(fName);
+            Scanner myReader = new Scanner(myObj);
+
+            // Reading and processing the input
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if (data.contains("wrote:")) {
+                    while (myReader.hasNextLine()) {
+                        data = myReader.nextLine();
+                        if (!data.contains("--")) {
+                            //data += " ";
+                            data = data.replace(">","");
+                            reply.append(data);
+                        }
+                        else if (data.contains("--")) {
+                            return reply.toString().trim();
+                        }
+                    }
+                }
+            }
+
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An Error Occurred.");
+            e.printStackTrace();
+        }
+        return reply.toString().trim();
+    }
+
     public static void main(String[] args) {
         System.out.println("=================================================");
         System.out.println("Program Starting....");
@@ -293,12 +327,8 @@ public class Main {
         String fileName = userInput.nextLine(); // Read user input
         System.out.println("=================================================");
 
-       printAttributes(fileName);
+        printAttributes(fileName);
 
-        System.out.println("=================================================");
-        System.out.println(getSentMessage(fileName));
-
-        /*
         System.out.println("=================================================");
         System.out.println("Enter the file name for the second email:");
         String fileName2 = userInput.nextLine(); // Read user input
@@ -307,7 +337,8 @@ public class Main {
         printAttributes(fileName2);
 
         checkReply(fileName, fileName2);
-        */
+
+
 
     }
 }
