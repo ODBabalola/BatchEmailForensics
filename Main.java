@@ -212,8 +212,16 @@ public class Main {
         double percentage = findSimilarity(getSentMessage(f1), getQuotedReply(f2));
         percentage *= 100;
 
-        System.out.println("The similarity between the sent message and the quoted reply message is : "
-                + percentage + "%");
+        if (percentage > 79) {
+            System.out.println((ANSI_GREEN + "✓ The similarity between the sent message and the quoted reply" +
+                    " message is : " + percentage + "%" + ANSI_RESET));
+        }
+        else {
+            System.out.println((ANSI_RED + "✓ The similarity between the sent message and the quoted reply" +
+                    " message is : " + percentage + "%" + ANSI_RESET));
+        }
+
+
         System.out.println("=================================================");
     }
 
@@ -291,6 +299,7 @@ public class Main {
 
     private static String getQuotedReply(String fName) {
         StringBuilder reply = new StringBuilder();
+        String output;
 
         try {
             File myObj = new File(fName);
@@ -308,7 +317,9 @@ public class Main {
                             reply.append(data);
                         }
                         else if (data.contains("--")) {
-                            return reply.toString().trim();
+                            output = reply.toString().trim();
+                            output = output.replace("  ", " ");
+                            return output;
                         }
                     }
                 }
@@ -320,7 +331,10 @@ public class Main {
             System.out.println("An Error Occurred.");
             e.printStackTrace();
         }
-        return reply.toString().trim();
+
+        output = reply.toString().trim();
+        output = output.replace("  ", " ");
+        return output;
     }
 
     public static void main(String[] args) {
