@@ -217,7 +217,7 @@ public class Main {
                     " message is : " + percentage + "%" + ANSI_RESET));
         }
         else {
-            System.out.println((ANSI_RED + "✓ The similarity between the sent message and the quoted reply" +
+            System.out.println((ANSI_RED + "x The similarity between the sent message and the quoted reply" +
                     " message is : " + percentage + "%" + ANSI_RESET));
         }
 
@@ -265,6 +265,7 @@ public class Main {
 
     private static String getSentMessage(String fName) {
         StringBuilder message = new StringBuilder();
+        String output;
 
         try {
             File myObj = new File(fName);
@@ -282,7 +283,9 @@ public class Main {
                            message.append(data);
                        }
                        else if (data.contains("--") || data.contains("wrote:")) {
-                           return message.toString().trim();
+                           output = message.toString().trim();
+                           output = output.replace("  ", " ");
+                           return output;
                        }
                    }
                }
@@ -294,7 +297,9 @@ public class Main {
             System.out.println("An Error Occurred.");
             e.printStackTrace();
         }
-        return message.toString().trim();
+        output = message.toString().trim();
+        output = output.replace("  ", " ");
+        return output;
     }
 
     private static String getQuotedReply(String fName) {
@@ -357,5 +362,8 @@ public class Main {
         printAttributes(fileName2);
 
         checkReply(fileName, fileName2);
+
+        System.out.println(getSentMessage(fileName));
+        System.out.println(getQuotedReply(fileName2));
     }
 }
