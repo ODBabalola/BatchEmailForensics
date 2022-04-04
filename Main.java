@@ -208,6 +208,12 @@ public class Main {
             System.out.println(ANSI_RED + "x The date from the corresponding email does not occur " +
                     "after the first email" + ANSI_RESET);
         }
+
+        double percentage = findSimilarity(getSentMessage(f1), getQuotedReply(f2));
+        percentage *= 100;
+
+        System.out.println("The similarity between the sent message and the quoted reply message is : "
+                + percentage + "%");
         System.out.println("=================================================");
     }
 
@@ -337,8 +343,5 @@ public class Main {
         printAttributes(fileName2);
 
         checkReply(fileName, fileName2);
-
-
-
     }
 }
