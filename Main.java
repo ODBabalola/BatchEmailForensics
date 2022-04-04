@@ -262,11 +262,12 @@ public class Main {
                if (data.contains("Content-Type: text/")) {
                    while (myReader.hasNextLine()) {
                        data = myReader.nextLine();
-                       if (!data.contains("Content-Transfer-Encoding") && !data.contains("--")) {
+                       if (!data.contains("Content-Transfer-Encoding") && !data.contains("--")
+                               && !data.contains("wrote:")) {
                            data += " ";
                            message.append(data);
                        }
-                       else if (data.contains("--")) {
+                       else if (data.contains("--") || data.contains("wrote:")) {
                            return message.toString().trim();
                        }
                    }
