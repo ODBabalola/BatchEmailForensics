@@ -1,0 +1,112 @@
+Received: from 10.197.37.201
+ by atlas209.free.mail.bf1.yahoo.com with HTTPS; Mon, 4 Apr 2022 16:40:16 +0000
+Return-Path: <babalola_dan@yahoo.com>
+X-Originating-Ip: [77.238.179.83]
+Received-SPF: pass (domain of yahoo.com designates 77.238.179.83 as permitted sender)
+Authentication-Results: atlas209.free.mail.bf1.yahoo.com;
+ dkim=pass header.i=@yahoo.com header.s=s2048;
+ spf=pass smtp.mailfrom=yahoo.com;
+ dmarc=pass(p=REJECT) header.from=yahoo.com;
+X-Apparently-To: babalola_dan@yahoo.com; Mon, 4 Apr 2022 16:40:16 +0000
+X-YMailISG: hsBy9fAWLDsyinBxuCb1vJI33oqkPL9.XcJIvBhy_b4R6avN
+ eJy8ZD6bGicSYT3lfPvctFdiz6Q4QxqSpM1KnmzlN_Y8.atlm45mW6CPcEoZ
+ 2xo7DpYUdERx2BYTvNhg.nyug5S.KokoDvRq1KEFNbIJQBDQvue2LvNwZdvs
+ vm89oz9iyCnHFEhT4HltxZ7fC7KFA7Oh2i5wdai7Y11tzUtMefvdk3K3PNXv
+ zu7zJbaxqoX.4uIONl9gYdq1OocmSldoivNJUexPHBDmrsT35dYUVAG0k3xL
+ wpDxOhFCWobZz5yadnQV5sFB0sWeL3Um2GE6IJDEsDXy2VTo_pGINVi_OMeW
+ 67aiqrFZUJ4W0TECUJhJSiTuIGLsd1ykdFUiOq3kB.q4ScNZBqEaWuXqXi6n
+ lfwHMLQV5ohTwAt40CKuC5T5SYRXBquFzrgQTmRzs1Ae9a_ALN7N2xhtKjIe
+ P2UjfYUbSNbXuMxSg4Mlq.Hac5Iv2nSI4L39ATCIRwWTzMiBBnvgfYFADL8g
+ u_vlSQy9N5amLwYajfuZ7.5g8msPb1wExZ396mhXojzQfHKXybv9GzxxACp8
+ aqgCbM_DCKnhPcqYjZ6PV68u0PMqwd5nd8Ut7Z2ZAh7kk8KUBBqkOsREl8pT
+ u68IkmTr6QE5d3z7h3nPnOx0DHAD0oQSG3Ojk9RhlucNWkYLvFqSLGaPEkYz
+ Y_.Bnu74nmqc9XkhtNZhFM4GbM7M1kQgarHTLkwfJ8yI3a2yH6IytWHcWR7q
+ rPblADdxOtf3NTnjivdpexIVaCkSDuO32kEiTN.357ZfWDVDL5eQyO.96rLV
+ VFQu4XS11FhcaohAGR9E5Qso_zIV6IMWCtnddGR8gZR5JASyhoz9bm5ZI2NZ
+ 31kLJPlAhS3OHD3Sw4aPAD5x_sKE5pFad2vRP6jRauRxsPa3rFyb0xkLPweD
+ o5DSz6NpyLBGR21uI6xEObjZUQ5XDn44yGxTixCY4q.5GqfbuzZtBfyk76Pe
+ C6VfEAcZgIl2tktiaSot5Y35FsVtoA3OVRrUJcYEl8.Tghnz34xLrGXbMXld
+ QgA0uehfiLkgC0VDDECy0xqgdzyS9DccrG4Ciy6KMc4KyZMvWsKbPmk66HMN
+ __wxx5vEI1n9fty1V93_HYf4VOR2lI2WONOg19WVSBPs9H8jTA--
+Received: from 77.238.179.83 (EHLO sonic309-25.consmr.mail.ir2.yahoo.com)
+ by 10.197.37.201 with SMTPs
+ (version=TLS1_2 cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256);
+ Mon, 04 Apr 2022 16:40:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1649090415; bh=sKtneU7VSGLNlLMKGFYIdVfdqQzCdqfB3Kn7uAPmlIY=; h=Date:From:To:Subject:References:From:Subject:Reply-To; b=MqqdywKJmi6BaefR23R2CpT0rBEDC+bAFCnYFRAcbXLAcQ6jHhNQ82oNhl0WWxF/vVOBrPP2aEkT+FX8Mgbehfbxhditrf2LJx/jVzE+3yKTIb0o6p6QG+QCb2HJGq/smKfympksYJV1DQi7Nv6hscS36WHGfbZpktpK2L2ZR/KaXFp+SEjlocrnrpYxFWYwnxqW/FkycHvjkiS25mGeb0B5L/R+ANTjgMo6g3W1p9wW91KtCqgynXVouXMsdYT9S9n9TMBh2K2x1g6Q8ysoMuIY0CUO7vcTVqn0mdjJcb9RS4fg9WypFoEXFYrbiYwKnReP+exCHN4wjgvDihykig==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1649090415; bh=8xoCQv6+LqxaJoLrGVN3WZnnZ4FO3WJNL0kFRxmW0FI=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=mZCqpn14XV0wVNIpCsOyDdC60vMx83aIW2F8Uuq1nvOdy2FYY/NsIQtoCxr7sBN8cebNU+kmOR61D8we0EVEBoOi6E8t3Dkq5ngvvpYx5Z5Iq0yMtF55VpNqzFWdwJ7gPTz51Ozr8KQKs3A4ECFXv5kivGsaOWJXg2aMFii0ZXBzOmu86uJofkZeZgCAEsXe+o796XYIsdAwFwqNKo1582graWBrHvtnZT+y3QNpAoU1NSAjBzQjPcYFTD9IJzMuTGHUYLmKQIjTM4hZVQHwZTvb4mk3CXevgHUO0z+zfkABDD/sP88KvcJs48LnAwjYtrdxtG7C6pbrKzRwsLUr5g==
+X-YMail-OSG: rPDE..cVM1lsFl.Go8mbKV166fcQzk1gRzspmZfc8zoAr8whtFehWmKx9NikJeV
+ BW10Twjx2UJWKSUSkmBEkHJZevbBrEyNJNtthxUd9tUGXhfhl9IMh7bUafw9OibtsaV1N_sWh8NR
+ AGAd9YzwifeOM_RhM.DbaylK4IdB3vEKRjzigh_IX4UM71MKjXvLXcAEKUtzVdYN1viZlH2DArpQ
+ M.WEh88_NegcRIp_mnjzrvunpfFMNIuChe8yPfZXiDaTti.TNhL3n6W38BC2l995snDxpQyaclWR
+ nfodo0jzP8eX2_qPHUjOGgwYk0lj5Mm5F2P71uUU7TkhjIqdgSBRX03ikVbaAXK_nTLBn5IEyiBq
+ o03m0tFah41BYy0FYujlhCfMsXlke76sCGqCLlm6BGYufC_5a9mix6b3DayVqbD9rhKF_u8Cd_6H
+ 2ky2SSmptFGDScb5F_EOGtvBWCiIWkQIxhV7HLNkfc8hRGGulvCPmsF8PZyHOhQbkpxo_wFDNLYq
+ cYjGfcughtXQtZfTuIxBDQgWw0rXXFDWPMsaD_JjRoJ457PudMbBhEXJnWa37hA4TVZTlKWG.Ue4
+ R9xH.2fc4_L291INsOy_HW87Y0xUukusqSkovRhuu5nMdrcarbLr2KucKN.4TrevpoFAfKGfuIO1
+ rPFxXjBWg1Gzvg65fa0HPB5aeZzadNANPXrnrT_t0vDIk96ETh62U1gU_lwg7NxkJonIFjJNfq0y
+ 2Wrvn2ti1YqJRMBqNH6XKpIm4KVUPYheU7SlRh97.FbuAve7uVp9379pwaaZdugYix6QCsGWEYA.
+ 06LFL0GA5hMi6RnCrJhnwI9uJgF2_0BI8DTVE1mH.5g.kuj.NcshFhH6plItUExnnJTNEpcIF5Rf
+ ounE0f4310h9YDfm7w.gojOrCIrHvOrjEbRnFqYiIL0yLk3evWCHn5qYatPpsmd60sCPJsn.o1Qr
+ g_7BKuyOeoVx1PUVmlSgcvQlOC6Dnv8V4tr_WLo.FQtBMuw8aEPJOmr74kFslZ5Qguo4zVPMeMnU
+ FtPZlTHDk9JECAI8ROXQuX0hAWH8LAC67IXBZp3GCC_9i6eAoBlkHPehJ6aTLbfxMilM3fFcemWd
+ jmZaN_50_mVUgxT3XlLhBH3Gm6Soj000oh8txzLDwVlHgQySwIKwyWSMA42z0Zu2iniOCxNn2ojO
+ SWTVJ0atwRB0Aq3y2DUy4FWCsFnt2IY4stYi6rSmPFOw3tjoO6dhYKEgjwIl83xzWeerfVDMG5GL
+ NiG9uAeVcU0y2E0Rqd7.xwZEZPG24.7fBanZoMNL_rxhdTn_8K_bfIdTp2BzT3lnkp2aNa9EJPtS
+ _OiLht1SgZ0L8F4P2ed4fRdi_hiDq6hAMvsoNvwgQ1.ZulV4atDl0yYNkmFSWorZrXgtXoQt6yhZ
+ p_2AaiGRsel2rEVY0hgmCi29na7UxbAQH9I06AOvoIVyLcFj5INQQxw5yv5KEt1rBCmIM1mQ49E_
+ ciFZiwFHZO0jwN7FGKxgiusDEoAdK.El7zRD2bFJ7KOEGZd1cRvB4PzRup2a7mYPCCyzDUY8J8pu
+ WQn.GkORXEfeuWD40PLnVRqbl918PA8HMnp48ud_F9DS1zFGNNSgOtSkdTmhNAXpoKQKhKoB0trF
+ lN3Z_vudUHl35zs90yLhK0HWDWZ2X_vRv3SB7H0ygRQaPctdC72l_.bCVOQmoNr5H.L7fw1FiNJe
+ XtoKOCVT4Dl0ALnteJwaz4sayW5n645WvZ1kiNhK61ecaRWxrh_UPC2egY.kIhYcePEn26zjaQcd
+ KjE_xjgu_KKgajGfLTzxgOqp8MCbUFwSHZEn1nKW4zA_Z0B7rGPmiQ2NiwdPHGhZDfqrLoh8CfB6
+ LVsACojGdlGEe8xTSEnZMtSZ2N6eO1RuxRhDWuukoUJ4Nf2y6QZW.MkV7ZzzgEIHFNe9wJqLwNgG
+ axaZAD6Mm0eDPG90X_yeJ.OdClMipVyd07.pITNgKYuacaeA90BBqiZnVjNZEX7da8ISbBOLi59R
+ EQoA8yqrsgbMAArHqKNhez9sbPODtf451P031T4mYSP600Ro4lSnDmbnDIbiJFxbF7gg_LshaipO
+ XSosbSxAyjFmK9ToticNNKSHJvHyvADh9bBuf9WreX.Y8AoInXgBGQpIsn6HrniLeK67CRLGmeGo
+ h2BMbNQQkgw--
+X-Sonic-MF: <babalola_dan@yahoo.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.ir2.yahoo.com with HTTP; Mon, 4 Apr 2022 16:40:15 +0000
+Date: Mon, 4 Apr 2022 16:44:57 +0000 (UTC)
+From: "babalola_dan@yahoo.com" <babalola_dan@yahoo.com>
+To: Daniel Babalola <babalola_dan@yahoo.com>
+Message-ID: <1112452407.2453552.1649090697439@mail.yahoo.com>
+Subject: Self loop message
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_2453551_1067144049.1649090697438"
+References: <1112452407.2453552.1649090697439.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.20001 YMailNorrin
+Content-Length: 2214
+
+------=_Part_2453551_1067144049.1649090697438
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Good day COS151 team and Mr Van Heerden,
+I am writing this email to inform you that I am unable to sit the upcoming semester test on campus as I will be flying to Durban for recess on the Saturday morning. There were no later flights available and the booking was finalised before I had the opportunity to check ClickUp for the test date. As it is to be written in the IT labs, is there any possibility that I may write on a home PC or, alternatively, in the aegrotat test slot.
+Kind regards,Taylin Govender
+
+------=_Part_2453551_1067144049.1649090697438
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body><div class=3D"yahoo-style-wrap" style=3D"font-fami=
+ly:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px;"><div dir=
+=3D"ltr" data-setdir=3D"false"><div><span style=3D"color: rgb(34, 34, 34); =
+font-family: Arial, Helvetica, sans-serif; font-size: small;">Good day COS1=
+51 team and Mr Van Heerden,</span><div style=3D"color: rgb(34, 34, 34); fon=
+t-family: Arial, Helvetica, sans-serif; font-size: small;"><br></div><div s=
+tyle=3D"color: rgb(34, 34, 34); font-family: Arial, Helvetica, sans-serif; =
+font-size: small;">I am writing this email to inform you that I am unable t=
+o sit the upcoming semester test on campus as I will be flying to Durban fo=
+r recess on the Saturday morning. There were no later flights available and=
+ the booking was finalised before I had the opportunity to check ClickUp fo=
+r the test date. As it is to be written in the IT labs, is there any possib=
+ility that I may write on a home PC or, alternatively, in the aegrotat test=
+ slot.</div><div style=3D"color: rgb(34, 34, 34); font-family: Arial, Helve=
+tica, sans-serif; font-size: small;"><br></div><div style=3D"color: rgb(34,=
+ 34, 34); font-family: Arial, Helvetica, sans-serif; font-size: small;">Kin=
+d regards,</div><div style=3D"color: rgb(34, 34, 34); font-family: Arial, H=
+elvetica, sans-serif; font-size: small;">Taylin Govender</div></div><br></d=
+iv></div></body></html>
+------=_Part_2453551_1067144049.1649090697438--
