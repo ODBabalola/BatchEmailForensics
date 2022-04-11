@@ -10,6 +10,7 @@ public class Main {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_BLUE = "\u001B[34m";
 
     private static String getFromAddress(String fName) {
         String address = null;
@@ -151,15 +152,28 @@ public class Main {
         ArrayList<String> S = getToAddress(fileName);
 
         // Printing out output
-        System.out.println("The From Address: " + fromAddress);
-        System.out.println("The Date: " + date);
-        System.out.print("The To Address: ");
+        /*
+         * The second string begins after 40 characters. The dash means that the
+         * first string is left-justified.
+         */
+        String format = "%-20s%s%n";
+
+        System.out.printf(format, "The From Address: ", fromAddress);
+        System.out.printf(format, "The Date: ", date);
+
+        StringBuilder output = new StringBuilder();
+
+
         for (int k = 0; k < S.size(); k++) {
-            System.out.print(S.get(k));
+            //System.out.print(S.get(k));
+            output.append(S.get(k));
             if (k != S.size() - 1) {
-                System.out.print(", ");
+                //System.out.print(", ");
+                output.append(", ");
             }
         }
+
+        System.out.printf(format, "The To Address: ", output);
         System.out.println();
     }
 
@@ -348,22 +362,32 @@ public class Main {
         System.out.println("=================================================");
 
         Scanner userInput = new Scanner(System.in); // Create a Scanner object
-        System.out.println("Enter the file name for the first email (eg. 'email1.txt'):");
-        String fileName = userInput.nextLine(); // Read user input
-        System.out.println("=================================================");
+        System.out.println(ANSI_BLUE + "TASK" + ANSI_RESET);
+        System.out.println(ANSI_GREEN + "1" + ANSI_RESET + ": Validate if an email is a reply to another email");
+        System.out.println(ANSI_GREEN + "2" + ANSI_RESET + ": Graphically contextualise email communications");
+        System.out.println();
+        System.out.print("Enter Task: ");
+        String task = userInput.nextLine();
 
-        printAttributes(fileName);
+        if (task.equals("1")) {
+            System.out.println("=================================================");
+            System.out.println("Enter the file name for the first email:");
+            String fileName = userInput.nextLine(); // Read user input
 
-        System.out.println("=================================================");
-        System.out.println("Enter the file name for the second email:");
-        String fileName2 = userInput.nextLine(); // Read user input
-        System.out.println("=================================================");
+            printAttributes(fileName);
 
-        printAttributes(fileName2);
+            System.out.println("=================================================");
+            System.out.println("Enter the file name for the second email:");
+            String fileName2 = userInput.nextLine(); // Read user input
+            System.out.println("=================================================");
 
-        checkReply(fileName, fileName2);
+            printAttributes(fileName2);
 
-        System.out.println(getSentMessage(fileName));
-        System.out.println(getQuotedReply(fileName2));
+            checkReply(fileName, fileName2);
+
+            System.out.println(getSentMessage(fileName));
+            System.out.println(getQuotedReply(fileName2));
+        }
+
     }
 }
