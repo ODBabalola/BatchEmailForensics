@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;    // Import File class
 import java.io.FileNotFoundException;   // Import this class to handle errors
 import java.util.Scanner;   // Import the Scanner class to read text files
@@ -387,6 +389,25 @@ public class Main {
 
             System.out.println(getSentMessage(fileName));
             System.out.println(getQuotedReply(fileName2));
+        }
+        else if(task.equals("2")) {
+            System.out.println("=================================================");
+            System.out.println("Select email files:");
+
+            JFileChooser chooser = new JFileChooser();
+            chooser.setMultiSelectionEnabled(true);
+
+            // Show the dialog; wait until dialog is closed
+            Component frame = null;
+            chooser.showOpenDialog(frame);
+
+            // Retrieve the selected files.
+            File[] files = chooser.getSelectedFiles();
+
+            for (File fn : files) {
+                System.out.println(getDate(fn.toPath().toString()));
+                //System.out.println(fn.toPath());
+            }
         }
 
     }
