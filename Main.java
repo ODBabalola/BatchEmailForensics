@@ -11,6 +11,7 @@ class mail {
         date = d;
         to = t;
         from = f;
+        replies = new ArrayList<>();
     }
     public String name;
     public Date date;
@@ -445,15 +446,21 @@ public class Main {
                 fls.add(new mail(n,d,t,f));
             }
 
-            for (mail m : fls) {
-                for (mail l : fls) {
+            // Bubble sort mail list fls
+            ArrayList<mail> srtM = bubbleSort(fls);
+
+            for (mail m : srtM) {
+                System.out.println(m.name + ", " + m.date);
+                for (mail l : srtM) {
                     for (String toAds : l.to) {
                         // check if mail l addresses mail m, and mail l occurs afterwards mail m
                         if (m.from.equals(toAds) && l.date.compareTo(m.date) > 0) {
                             m.replies.add(l);
+                            System.out.println("\t └── " + l.name + ", " + l.date);
                         }
                     }
                 }
+                System.out.println();
             }
 
         }
