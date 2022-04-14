@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.io.File;    // Import File class
 import java.io.FileNotFoundException;   // Import this class to handle errors
-import java.util.Scanner;   // Import the Scanner class to read text files
-import java.util.ArrayList; // Import the ArrayList class
-import java.util.Date;  // Import the Data class
+import java.util.*;
 import java.text.SimpleDateFormat; // Import this class to format string dates
 import java.text.ParseException; // Import class for parse exception
 
@@ -369,6 +367,22 @@ public class Main {
         output = reply.toString().trim();
         output = output.replace("  ", " ");
         return output;
+    }
+
+    private static ArrayList<mail> bubbleSort(ArrayList<mail> m) {
+        int len = m.size();
+        Date dateOne, dateTwo;
+
+        for (int i = 0; i < len-1; ++i) {
+            for (int j = 0; j < len - i - 1; ++j) {
+                dateOne = m.get(j+1).date;
+                dateTwo = m.get(j).date;
+                if (dateOne.before(dateTwo)) {
+                    Collections.swap(m,j,j+1);
+                }
+            }
+        }
+        return m;
     }
 
     public static void main(String[] args) {
