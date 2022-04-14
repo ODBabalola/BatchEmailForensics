@@ -7,6 +7,20 @@ import java.util.Date;  // Import the Data class
 import java.text.SimpleDateFormat; // Import this class to format string dates
 import java.text.ParseException; // Import class for parse exception
 
+class mail {
+    public mail(String n, Date d, ArrayList<String> t, String f) {
+        name = n;
+        date = d;
+        to = t;
+        from = f;
+    }
+    public String name;
+    public Date date;
+    public ArrayList<String> to;
+    public String from;
+    public ArrayList<mail> replies;
+}
+
 public class Main {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -402,10 +416,30 @@ public class Main {
 
             // Retrieve the selected files.
             File[] files = chooser.getSelectedFiles();
+            ArrayList<mail> fls = new ArrayList<>();
 
+            // Create mail objects from all the selected files for querying
+            ArrayList<String> t;
+            String path, n, f;
+            Date d;
             for (File fn : files) {
-                System.out.println(getDate(fn.toPath().toString()));
-                //System.out.println(fn.toPath());
+                path = fn.toPath().toString();
+                n = fn.getName();
+                d = getDate(path);
+                t = getToAddress(path);
+                f = getFromAddress(path);
+                fls.add(new mail(n,d,t,f));
+            }
+
+            for (mail m : fls) {
+                for (mail l : fls) {
+                    for (String toAds : l.to) {
+                        // check if mail l addresses mail m, and mail l occurs afterwards mail m
+                        if (m.from.equals(toAds) && l.date.compareTo(m.date) > 0) {
+                            m.replies.add(l);
+                        }
+                    }
+                }
             }
 
         }
