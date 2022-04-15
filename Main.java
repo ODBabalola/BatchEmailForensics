@@ -47,6 +47,7 @@ public class Main {
                         temp = data.split(" ");
                         address = temp[1].trim();
                     }
+                    break;
                 }
             }
 
@@ -82,6 +83,7 @@ public class Main {
                         System.out.println("An Error Occurred.");
                         e.printStackTrace();
                     }
+                    break;
                 }
             }
 
@@ -148,6 +150,7 @@ public class Main {
                         temp = data.split(" ");
                         sentTos.add(temp[1].trim());
                     }
+                    break;
                 }
             }
 
@@ -191,6 +194,44 @@ public class Main {
 
         System.out.printf(format, "The To Address: ", output);
         System.out.println();
+    }
+
+    private static String getSubject(String fName) {
+        String subject = "";
+
+        try {
+            File myObj = new File(fName);
+            Scanner myReader = new Scanner(myObj);
+
+            // Reading and processing the input
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if(data.matches("Subject:.*")) {
+                    subject = data.substring(8).trim();
+                    break;
+                }
+            }
+
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An Error Occurred.");
+            e.printStackTrace();
+        }
+
+        return subject;
+    }
+
+    private static boolean checkSubject(String fileName, String fileName2) {
+        String sub1 = getSubject(fileName);
+        String sub2 = getSubject(fileName2);
+
+        if (sub1.contains(sub2) || sub2.contains(sub1)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     private static void checkReply(String f1, String f2) {
@@ -318,6 +359,7 @@ public class Main {
                            return output;
                        }
                    }
+                   break;
                }
             }
 
@@ -357,6 +399,7 @@ public class Main {
                             return output;
                         }
                     }
+                    break;
                 }
             }
 
@@ -389,7 +432,7 @@ public class Main {
     }
 
     private static void printNTree(mail x, boolean[] flag, int depth, boolean isLast) {
-        if (x == null) {
+        if ((x == null) || x.flag) {
             return;
         }
 
@@ -415,6 +458,7 @@ public class Main {
         else if (isLast) {
             //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
             System.out.print("+--- " +  x.name + ", " + x.date + '\n');
+            //x.flag = true;
             if (depth < flag.length) {
                 flag[depth] = false;
             }
@@ -422,6 +466,7 @@ public class Main {
         else {
             //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
             System.out.print("+--- " +  x.name + ", " + x.date + '\n');
+            //x.flag = true;
         }
 
         int it = 0;
@@ -517,11 +562,15 @@ public class Main {
             }
 
             for (mail s : srtM) {
+                if (s.flag) {
+                    break;
+                }
+
                 boolean[] flag = new boolean[s.replies.size() + 1];
                 Arrays.fill(flag, true);
 
                 printNTree(s, flag, 0, false);
-
+                s.flag = true;
                 System.out.println();
             }
 
