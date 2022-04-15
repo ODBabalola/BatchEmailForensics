@@ -12,12 +12,14 @@ class mail {
         to = t;
         from = f;
         replies = new ArrayList<>();
+        flag = false;
     }
     public String name;
     public Date date;
     public ArrayList<String> to;
     public String from;
     public ArrayList<mail> replies;
+    public boolean flag;
 }
 
 public class Main {
@@ -386,6 +388,47 @@ public class Main {
         return m;
     }
 
+    private static void printNTree(mail x, boolean[] flag, int depth, boolean isLast) {
+        if (x == null) {
+            return;
+        }
+
+        for (int i = 1; i < depth; ++i) {
+            if (flag[i]) {
+                System.out.print("| "
+                        + " "
+                        + " "
+                        + " ");
+            }
+            else {
+                System.out.print(" "
+                        + " "
+                        + " "
+                        + " ");
+            }
+        }
+
+        // root
+        if (depth == 0) {
+            System.out.println(x.name + ", " + x.date);
+        }
+        else if (isLast) {
+            System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
+            flag[depth] = false;
+        }
+        else {
+            System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
+        }
+
+        int it = 0;
+        for (mail i : x.replies) {
+            ++it;
+            printNTree(i,flag, depth+1,it==(x.replies.size())-1);
+        }
+        flag[depth] = true;
+    }
+
+
     public static void main(String[] args) {
         System.out.println("=================================================");
         System.out.println("Program Starting....");
@@ -449,21 +492,28 @@ public class Main {
             // Bubble sort mail list fls
             ArrayList<mail> srtM = bubbleSort(fls);
 
-            for (mail m : srtM) {
-                System.out.println(m.name + ", " + m.date);
+            // Traverse and display graph
+            // depthFirstTraversal(srtM);
+
+            for (mail mail : srtM) {
                 for (mail l : srtM) {
                     for (String toAds : l.to) {
                         // check if mail l addresses mail m, and mail l occurs afterwards mail m
-                        if (m.from.equals(toAds) && l.date.compareTo(m.date) > 0) {
-                            m.replies.add(l);
-                            System.out.println("\t └── " + l.name + ", " + l.date);
+                        if (mail.from.equals(toAds) && l.date.compareTo(mail.date) > 0) {
+                            mail.replies.add(l);
                         }
                     }
                 }
-                System.out.println();
             }
 
-        }
+            for (mail s : srtM) {
+                boolean[] flag = new boolean[s.replies.size() + 1];
+                Arrays.fill(flag, true);
 
+                printNTree(s, flag, 0, false);
+            }
+
+
+        }
     }
 }
