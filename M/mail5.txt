@@ -1,0 +1,257 @@
+Delivered-To: u18041494@tuks.co.za
+Received: by 2002:a05:7108:6183:0:0:0:0 with SMTP id t3csp1781861gdo;
+        Fri, 18 Mar 2022 07:55:13 -0700 (PDT)
+X-Received: by 2002:a25:90d:0:b0:619:52e6:9f9b with SMTP id 13-20020a25090d000000b0061952e69f9bmr10707956ybj.447.1647615312968;
+        Fri, 18 Mar 2022 07:55:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1647615312; cv=none;
+        d=google.com; s=arc-20160816;
+        b=jt/t52qugZFCnXqSiuVaT12Pa/FoUh3+DzE6DGynM6nO1hEwQngakfNfSXxfuxAwAE
+         QiOWaE15HOdhwY6X68ClZoz+35u5sywHqOXt5tppfmC9gkf4VBuRC4EWR0FDwtpdi3z0
+         iH5w3oQovQtgxsy3/u+UlTan70IZ/h8IeyGq4vhKI6ouvoYsk8MfD8FwAcicArAqPb7K
+         +fz5fbF50hiHvhC6aYCAvKu+/Q1iTwO9LXolZimy7UJGJOrtU6qO0znLcIWX9OjPdXEO
+         knNi4SY45FpGJszr57W0l+rVzaiG4dAtqyUCREbxQs0Stp/EffXRaps7sYlRc/LSpxOy
+         Bt8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=LzO43AGldWKr/1n26giWPGT5vdKrwDL8DNlA3GuUaLM=;
+        b=EbhCkhiD3SJqHSdeIJ7ICWBRCozN4CQcLzFD9l1arrvBd0uqT9XSKuhLCM8DfL1MY0
+         +sv7z4t+r2bOpYkbC/Zev4katAoa0nXclOBhjlFZun+MpXdhFoWFWggFRte8OK2JDtac
+         W9pHMAuSNPIaA2DaKpHkmbKpp20QbSWtSm6Oipm625tGEOCuoi2J/es6JYe5U4iHydGD
+         /jjNnq2Zrt7zQeQvkIblhWBWHaRuc6p+qUkLidyCiKR74dG5E8GetkLVRSqTyRLlWwD+
+         N64+PAbbII1SNfI+l44TRRJucaSldQlXBYLrh0aZeJIw1tSMWANzK8DkMy8GyYmffmR/
+         fGGw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=p3Lb7JcF;
+       spf=pass (google.com: domain of rkufakunesu@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=rkufakunesu@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Return-Path: <rkufakunesu@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id d72-20020a25684b000000b006331cff3fb3sor2698798ybc.57.2022.03.18.07.55.12
+        (Google Transport Security);
+        Fri, 18 Mar 2022 07:55:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of rkufakunesu@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=p3Lb7JcF;
+       spf=pass (google.com: domain of rkufakunesu@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=rkufakunesu@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LzO43AGldWKr/1n26giWPGT5vdKrwDL8DNlA3GuUaLM=;
+        b=p3Lb7JcFb+hMHUGclxCXHr2vSfrt0oX74n4iQa5v87+ytsg673e3jmih1oBb7k/PO0
+         biBjUOMr2aLoNIcNFnRvDCPncF+gsKUBGw5hqMV++wTKy8Gdy3QLGy09aWrsJzidizpg
+         kaZKNDr1l+cHfKcywTog5fr8WbuYBEJV5/vBhzTo6AayGvihNfBh8pE/Fq6P2wJqC/rd
+         bPTZ954psgDF/jmt/sct9V2Mlry8wapvBlyv+329UwloGtRz0HRXt8iag14pZ/ZOvcYa
+         /wpE4xLHZ3+g1jZ91RC0bzDLtWjhkcFLQgYpwsn2h9LTLSsP/Gymt3oDMgVBF2xIOtaG
+         zgtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LzO43AGldWKr/1n26giWPGT5vdKrwDL8DNlA3GuUaLM=;
+        b=ZioaI4jjkypduS8zqOrrq7tomxvFTMx/XAi3DXLy2Fjrih/lPNJz6hmc40ttAPMVg1
+         ltDH1XWlrITbksdVbWLqVlu1qhXcjKXJa0t9NoNd6cdqlcVQ8z15o2kqdkOdMdTJWtPr
+         6JSmZ2vES3f0rOYdv10QszZSu7qh/DwQRlNlpmvIiQFj+Qk/9RTvx1lRn1YPydEzjj7l
+         1f6ypvAb4ofSYbetMIJDj+e3TdKGsqH4NJxtn0owOAjXUXV/hJ08rTesFP523ljlmnMP
+         b1FHfu9tC2ldIUU3X4iEIVeMDrEZd/yb7/D6DpZnd05j/BJ9Ep7Qc+x2KjW9ZBcP7Xd8
+         mw6A==
+X-Gm-Message-State: AOAM533HPir248/s8uXog0xfNpCU4kJBvCnjwSXdeB6ur4fKBR2OuvZX
+	b9rxENG3YOzMM3buT6GJtMawkk5v3cpfy2T/y/IPbv7M
+X-Google-Smtp-Source: ABdhPJxNdcRn+qq/AttP1as6jRL4nxgAVl106B1eiU0evkTX2HYKkNVFqSWBxz/dsYqQAQUctpI3klVa18n8jsRK3pI=
+X-Received: by 2002:a25:5956:0:b0:633:9ef6:59 with SMTP id n83-20020a255956000000b006339ef60059mr9136116ybb.649.1647615312311;
+ Fri, 18 Mar 2022 07:55:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAG787w8RnKGEE1sPUrK=us5Gz0SArXtj0eJUwhcYyh-fdC8h1g@mail.gmail.com>
+ <CAG787w9usF52BEE0k0Q-3LajheF=97wN+4dSsCWg-q9nRNMykA@mail.gmail.com>
+In-Reply-To: <CAG787w9usF52BEE0k0Q-3LajheF=97wN+4dSsCWg-q9nRNMykA@mail.gmail.com>
+From: Rachel K <rkufakunesu@gmail.com>
+Date: Fri, 18 Mar 2022 16:55:01 +0200
+Message-ID: <CABfLNfUH04ckF9YKuAYhFOwESwaAd6hOx4_TBFzuw_EiWx01Tg@mail.gmail.com>
+Subject: Re: COS332 assistant work
+To: Martin Olivier <molivier@cs.up.ac.za>
+Cc: "Mr. Lionel Ntiranyibagira" <u19300001@tuks.co.za>, "Mr. Oluwatokesi Babalola" <u18041494@tuks.co.za>, 
+	"Mr. Peter Okumbe" <u18052640@tuks.co.za>
+Content-Type: multipart/alternative; boundary="0000000000006abd0005da7f5553"
+
+--0000000000006abd0005da7f5553
+Content-Type: text/plain; charset="UTF-8"
+
+Good afternoon Prof Martin,
+
+The arrangements are duly noted with thanks. I am agreeable to the
+arrangements. Many thanks.
+
+Kind Regards
+
+Rachel
+
+On Fri, 18 Mar 2022 at 16:39, Martin Olivier <molivier@cs.up.ac.za> wrote:
+
+> Dear All,
+>
+> Sorry about taking so long to schedule the practical events.
+>
+> Peter and Daniel have clashes on Tuesdays.  Therefore, I would appreciate
+> it if Rachel and Lionel can handle the Tuesday sessions (16:30-19:20).
+> (Lionel, sorry about not being able to accommodate you on a Friday).
+> Tuesday sessions will take place in the Informatorium, as scheduled (Purple
+> and Green labs).
+>
+> Then Peter, Daniel and Rachel can handle the sessions on Fridays.
+> (Rachel, I've noted that you will not be available one Friday per month,
+> but to make up for that, may I ask you to enter the marks on Excel for all
+> eight practical sessions?)   The Friday sessions will be from 9:30-12:30.
+> We will start in the Informatorium (Blue labs) for the first hour, because
+> it overlaps with our reserved space in the Informatorium.  I will find
+> another venue for the remaining two hours.
+>
+> The first assignments are to be demonstrated next week (22 and 25 March).
+> I'll send a marking rubric over the weekend.
+>
+> I am looking forward to working with you this year.  Thank you for your
+> willingness to assist.
+>
+> Regards
+> Martin Olivier
+>
+> On Fri, 4 Mar 2022 at 14:00, Martin Olivier <molivier@cs.up.ac.za> wrote:
+>
+>> Dear COS332 assistants (or "tutors"),
+>>
+>> I'm not sure whether any of you have made it yet entirely through the
+>> appointment system.  The system does all sorts of funny things.  I think
+>> I'm supposed to click on something now, but there is nowhere to click (and
+>> some colleagues are stuck too).  However, we will persist and somehow get
+>> you appointed.
+>>
+>> My initial plan was to have most of the demonstrations in the Tuesday
+>> afternoon slots (16:30-19:20), and I therefore avoided applicants who were
+>> enrolled for COS720.  However, based on this logic I should have avoided
+>> applicants taking COS783.  (Oops.)  In any case, there simply were not
+>> enough good applications so that I can afford to avoid any qualified
+>> applicant.
+>>
+>> As you probably know, the official time slots are Tuesdays, 16:30-19:20
+>> and Fridays, 7;30-10:20.
+>>
+>> So, I played with the following idea: Appoint most of you for the Tuesday
+>> session (which may no longer be feasible, given many of your schedules).
+>> This would allow most of the students to demo in the Informatorium.  Then
+>> find some alternative slot at a more convenient time, find a venue, and
+>> require students who want to use that slot to demo using their own laptops
+>> or other equipment.  This would cater for students who do not have laptops,
+>> and avoid the 7:30 slot on Fridays.
+>>
+>> I will talk to the students on Monday to determine how many really need
+>> to demo in the Informatorium. If there are not too many, the plan may still
+>> work.  I will also begin to find an alternative three hour slot that will
+>> work for most of the class and many of you.  The odds are that a slot at a
+>> reasonable time (somewhere between 12:30 and 16:20) on Thursdays (or even
+>> Friday mornings, about 9:30 to 12:20) would work.
+>>
+>> In the meantime, will you please indicate whether you are available
+>> during the Tuesday slot, so that I have some data to work with?  Please
+>> also indicate if you foresee a problem on Thursdays or Fridays for the
+>> indicated times.
+>>
+>> I also attach the schedule.  Demonstrations will only take place during
+>> those weeks when assignments are due.
+>>
+>> Thank you for your willingness to assist (and, in a case or two, to
+>> reconsider helping).
+>>
+>> Regards
+>> Martin Olivier
+>>
+>>
+> This message and attachments are subject to a disclaimer.
+> Please refer to
+> http://upnet.up.ac.za/services/it/documentation/docs/004167.pdf for full
+> details.
+>
+
+--0000000000006abd0005da7f5553
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Good afternoon Prof Martin,</div><div dir=3D"auto"><br></=
+div><div dir=3D"auto">The arrangements are duly noted with thanks. I am agr=
+eeable to the arrangements.=C2=A0Many thanks.=C2=A0</div><div dir=3D"auto">=
+<br></div><div dir=3D"auto">Kind Regards</div><div dir=3D"auto"><br></div><=
+div dir=3D"auto">Rachel</div><div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, 18 Mar 2022 at 16:39, Martin Olivier =
+&lt;<a href=3D"mailto:molivier@cs.up.ac.za">molivier@cs.up.ac.za</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Dear All,<div=
+><br></div><div>Sorry about taking so long to schedule the practical events=
+.</div><div><br></div><div>Peter and Daniel have clashes on Tuesdays.=C2=A0=
+ Therefore, I would appreciate it if Rachel and Lionel can handle the Tuesd=
+ay sessions (16:30-19:20).=C2=A0 (Lionel, sorry about not being able to acc=
+ommodate you on a Friday).=C2=A0 Tuesday sessions will take place in the In=
+formatorium, as scheduled (Purple and Green labs).</div><div><br></div><div=
+>Then Peter, Daniel and Rachel can handle the sessions on Fridays.=C2=A0 (R=
+achel, I&#39;ve noted that you will not be available one Friday per month, =
+but to make up for that, may I ask you to enter the marks on Excel for all =
+eight practical=C2=A0sessions?)=C2=A0 =C2=A0The Friday sessions will be fro=
+m 9:30-12:30.=C2=A0 We will start in the Informatorium (Blue labs) for the =
+first hour, because it overlaps with our reserved space in the Informatoriu=
+m.=C2=A0 I will find another venue for the remaining two hours.</div><div><=
+br></div><div>The first assignments are to be demonstrated next week (22 an=
+d 25 March).=C2=A0 I&#39;ll send a marking rubric over the weekend.</div><d=
+iv><br></div><div>I am looking forward to working with you this year.=C2=A0=
+ Thank you for your willingness to assist.</div><div><br></div><div>Regards=
+</div></div><div dir=3D"ltr"><div>Martin Olivier</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 4 Mar 2022 a=
+t 14:00, Martin Olivier &lt;<a href=3D"mailto:molivier@cs.up.ac.za" target=
+=3D"_blank">molivier@cs.up.ac.za</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Dear COS332 assistan=
+ts (or &quot;tutors&quot;),</div><div><br></div><div>I&#39;m not sure wheth=
+er any of you have made it yet entirely through the appointment system.=C2=
+=A0 The system does all sorts of funny things.=C2=A0 I think I&#39;m suppos=
+ed to click on something now, but there is nowhere to click (and some colle=
+agues are stuck too).=C2=A0 However, we will persist and somehow get you ap=
+pointed.</div><div><br></div><div>My initial plan was to have most of the d=
+emonstrations in the Tuesday afternoon slots (16:30-19:20), and I therefore=
+ avoided applicants who were enrolled for COS720.=C2=A0 However, based on t=
+his logic I should have avoided applicants taking COS783.=C2=A0 (Oops.)=C2=
+=A0 In any case, there simply were not enough good applications so that I c=
+an afford to avoid any qualified applicant.=C2=A0</div><div><br></div><div>=
+As you probably know, the official time slots are Tuesdays, 16:30-19:20 and=
+ Fridays, 7;30-10:20.</div><div><br></div><div>So, I played with the follow=
+ing idea: Appoint most of you for the Tuesday session (which may no longer =
+be feasible, given many of your schedules).=C2=A0 This would allow most of =
+the students to demo in the Informatorium.=C2=A0 Then find some alternative=
+ slot at a more convenient time, find a venue, and require students who wan=
+t to use that slot to demo using their own laptops or other equipment.=C2=
+=A0 This would cater for students who do not have laptops, and avoid the 7:=
+30 slot on Fridays.</div><div><br></div><div>I will talk to the students on=
+ Monday to determine how many really need to demo in the Informatorium. If =
+there are not too many, the plan may still work.=C2=A0 I will also begin to=
+ find an alternative three hour slot that will work for most of the class a=
+nd many of you.=C2=A0 The odds are that a slot at a reasonable time (somewh=
+ere between 12:30 and 16:20) on Thursdays (or even Friday mornings, about 9=
+:30 to 12:20) would work.<br></div><div><br></div><div>In the meantime, wil=
+l you please indicate whether you are available during the Tuesday slot, so=
+ that I have some data to work with?=C2=A0 Please also indicate if you fore=
+see a problem on Thursdays or Fridays for the indicated times.<br></div><di=
+v><br></div><div>I also attach the schedule.=C2=A0 Demonstrations will only=
+ take place during those weeks when assignments are due.</div><div><br></di=
+v><div>Thank you for your willingness to assist (and, in a case or two, to =
+reconsider helping).</div><div><br></div><div>Regards</div><div>Martin Oliv=
+ier<br></div><div><br></div></div>
+</blockquote></div>
+
+<br>
+<div style=3D"font-family:Arial,Helvetica,sans-serif"><span style=3D"font-s=
+ize:10.0pt;line-height:105%;font-family:&quot;Segoe UI&quot;,sans-serif">Th=
+is message and attachments are subject to a disclaimer.<br>
+Please refer to=C2=A0<a href=3D"http://upnet.up.ac.za/services/it/documenta=
+tion/docs/004167.pdf" target=3D"_blank">http://upnet.up.ac.za/services/it/d=
+ocumentation/docs/004167.pdf</a>=C2=A0</span><span style=3D"font-size:10pt;=
+line-height:105%;font-family:Tahoma,sans-serif">for
+full details.</span></div></blockquote></div></div>
+
+--0000000000006abd0005da7f5553--
