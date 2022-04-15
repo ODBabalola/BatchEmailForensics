@@ -6,20 +6,27 @@ import java.text.SimpleDateFormat; // Import this class to format string dates
 import java.text.ParseException; // Import class for parse exception
 
 class mail {
-    public mail(String n, Date d, ArrayList<String> t, String f) {
+    public mail(String n, Date d, ArrayList<String> t, String f,
+                String sub, String sM, String qM) {
         name = n;
         date = d;
         to = t;
         from = f;
         replies = new ArrayList<>();
         flag = false;
+        subject = sub;
+        sentMsg = sM;
+        qtdMsg = qM;
     }
     public String name;
     public Date date;
     public ArrayList<String> to;
     public String from;
     public ArrayList<mail> replies;
+    public String subject;
     public boolean flag;
+    public String sentMsg;
+    public String qtdMsg;
 }
 
 public class Main {
@@ -462,16 +469,16 @@ public class Main {
         }
         else if (isLast) {
             //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
-            System.out.print("+--- " +  x.name + ", " + x.date + '\n');
-            //x.flag = true;
+            System.out.print("└── " +  x.name + ", " + x.date + '\n');
+            x.flag = true;
             if (depth < flag.length) {
                 flag[depth] = false;
             }
         }
         else {
             //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
-            System.out.print("+--- " +  x.name + ", " + x.date + '\n');
-            //x.flag = true;
+            System.out.print("└── " +  x.name + ", " + x.date + '\n');
+            x.flag = true;
         }
 
         int it = 0;
@@ -538,7 +545,7 @@ public class Main {
 
             // Create mail objects from all the selected files for querying
             ArrayList<String> t;
-            String path, n, f;
+            String path, n, f, sub, sM, qM;
             Date d;
             for (File fn : files) {
                 path = fn.toPath().toString();
@@ -546,20 +553,33 @@ public class Main {
                 d = getDate(path);
                 t = getToAddress(path);
                 f = getFromAddress(path);
-                fls.add(new mail(n,d,t,f));
+                sub = getSubject(path);
+                sM = getSentMessage(path);
+                qM = getQuotedReply(path);
+
+                fls.add(new mail(n,d,t,f,sub,sM,qM));
             }
 
             // Bubble sort mail list fls
             ArrayList<mail> srtM = bubbleSort(fls);
 
-            // Traverse and display graph
-            // depthFirstTraversal(srtM);
+            boolean toValid, validDate, validSubject, validQuote, validReply;
+            double value;
 
             for (mail mail : srtM) {
+                validQuote = false;
+
                 for (mail l : srtM) {
                     for (String toAds : l.to) {
-                        // check if mail l addresses mail m, and mail l occurs afterwards mail m
-                        if (mail.from.equals(toAds) && l.date.compareTo(mail.date) > 0) {
+                        // check if mail l is a reply
+                        toValid = mail.from.equals(toAds);
+                        validDate = l.date.compareTo(mail.date) > 0;
+                        validSubject = mail.subject.contains(l.subject) || l.subject.contains(mail.subject);
+                        value = findSimilarity(mail.sentMsg, l.qtdMsg);
+                        if (value >= 0.8) validQuote = true;
+                        validReply = toValid && validDate && validSubject && validQuote;
+
+                        if (validReply) {
                             mail.replies.add(l);
                         }
                     }
@@ -568,7 +588,7 @@ public class Main {
 
             for (mail s : srtM) {
                 if (s.flag) {
-                    break;
+                    continue;
                 }
 
                 boolean[] flag = new boolean[s.replies.size() + 1];
@@ -578,8 +598,6 @@ public class Main {
                 s.flag = true;
                 System.out.println();
             }
-
-
         }
     }
 }
