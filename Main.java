@@ -169,6 +169,7 @@ public class Main {
         String fromAddress = getFromAddress(fileName);
         Date date = getDate(fileName);
         ArrayList<String> S = getToAddress(fileName);
+        String subject = getSubject(fileName);
 
         // Printing out output
         /*
@@ -178,6 +179,7 @@ public class Main {
         String format = "%-20s%s%n";
 
         System.out.printf(format, "The From Address: ", fromAddress);
+        System.out.printf(format, "The Subject: ", subject);
         System.out.printf(format, "The Date: ", date);
 
         StringBuilder output = new StringBuilder();
@@ -226,12 +228,7 @@ public class Main {
         String sub1 = getSubject(fileName);
         String sub2 = getSubject(fileName2);
 
-        if (sub1.contains(sub2) || sub2.contains(sub1)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return sub1.contains(sub2) || sub2.contains(sub1);
     }
 
     private static void checkReply(String f1, String f2) {
@@ -244,6 +241,14 @@ public class Main {
         ArrayList<String> S2 = getToAddress(f2);
 
         System.out.println("=================================================");
+        boolean reply = checkSubject(f1,f2);
+        if (reply) {
+            System.out.println(ANSI_GREEN + "✓ Email subjects match" + ANSI_RESET);
+        }
+        else {
+            System.out.println(ANSI_RED + "x Email subjects do not match" + ANSI_RESET);
+        }
+
         boolean validSent = false;
         for (String sent : S) {
             if (sent.equals(fromAddress2)) {
