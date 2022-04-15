@@ -400,12 +400,12 @@ public class Main {
                 if (data.contains("wrote:")) {
                     while (myReader.hasNextLine()) {
                         data = myReader.nextLine();
-                        if (!data.contains("--")) {
+                        if (!data.contains("--") && !data.contains("> wrote:")) {
                             //data += " ";
                             data = data.replace(">","");
                             reply.append(data);
                         }
-                        else if (data.contains("--")) {
+                        else {
                             output = reply.toString().trim();
                             output = output.replace("  ", " ");
                             return output;
@@ -509,94 +509,93 @@ public class Main {
         System.out.print("Enter Task: ");
         String task = userInput.nextLine();
 
-        if (task.equals("1")) {
-            System.out.println("=================================================");
-            System.out.println("Enter the file name for the first email:");
-            String fileName = userInput.nextLine(); // Read user input
-
-            printAttributes(fileName);
-
-            System.out.println("=================================================");
-            System.out.println("Enter the file name for the second email:");
-            String fileName2 = userInput.nextLine(); // Read user input
-            System.out.println("=================================================");
-
-            printAttributes(fileName2);
-
-            checkReply(fileName, fileName2);
-
-            System.out.println(getSentMessage(fileName));
-            System.out.println(getQuotedReply(fileName2));
-        }
-        else if(task.equals("2")) {
-            System.out.println("=================================================");
-            System.out.println("Select email files:");
-
-            JFileChooser chooser = new JFileChooser();
-            chooser.setDialogTitle("Select email files.");
-            chooser.setMultiSelectionEnabled(true);
-
-            // Show the dialog; wait until dialog is closed
-            chooser.showOpenDialog(null);
-
-            // Retrieve the selected files.
-            File[] files = chooser.getSelectedFiles();
-            ArrayList<mail> fls = new ArrayList<>();
-
-            // Create mail objects from all the selected files for querying
-            ArrayList<String> t;
-            String path, n, f, sub, sM, qM;
-            Date d;
-            for (File fn : files) {
-                path = fn.toPath().toString();
-                n = fn.getName();
-                d = getDate(path);
-                t = getToAddress(path);
-                f = getFromAddress(path);
-                sub = getSubject(path);
-                sM = getSentMessage(path);
-                qM = getQuotedReply(path);
-
-                fls.add(new mail(n,d,t,f,sub,sM,qM));
+        switch (task) {
+            case "1" -> {
+                System.out.println("=================================================");
+                System.out.println("Enter the file name for the first email:");
+                String fileName = userInput.nextLine(); // Read user input
+                printAttributes(fileName);
+                System.out.println("=================================================");
+                System.out.println("Enter the file name for the second email:");
+                String fileName2 = userInput.nextLine(); // Read user input
+                System.out.println("=================================================");
+                printAttributes(fileName2);
+                checkReply(fileName, fileName2);
+                System.out.println(getSentMessage(fileName));
+                System.out.println(getQuotedReply(fileName2));
             }
+            case "2" -> {
+                System.out.println("=================================================");
+                System.out.println("Select email files:");
+                JFileChooser chooser = new JFileChooser();
+                chooser.setDialogTitle("Select email files.");
+                chooser.setMultiSelectionEnabled(true);
 
-            // Bubble sort mail list fls
-            ArrayList<mail> srtM = bubbleSort(fls);
+                // Show the dialog; wait until dialog is closed
+                chooser.showOpenDialog(null);
 
-            boolean toValid, validDate, validSubject, validQuote, validReply;
-            double value;
+                // Retrieve the selected files.
+                File[] files = chooser.getSelectedFiles();
+                ArrayList<mail> fls = new ArrayList<>();
 
-            for (mail mail : srtM) {
-                validQuote = false;
+                // Create mail objects from all the selected files for querying
+                ArrayList<String> t;
+                String path, n, f, sub, sM, qM;
+                Date d;
+                for (File fn : files) {
+                    path = fn.toPath().toString();
+                    n = fn.getName();
+                    d = getDate(path);
+                    t = getToAddress(path);
+                    f = getFromAddress(path);
+                    sub = getSubject(path);
+                    sM = getSentMessage(path);
+                    qM = getQuotedReply(path);
 
-                for (mail l : srtM) {
-                    for (String toAds : l.to) {
-                        // check if mail l is a reply
-                        toValid = mail.from.equals(toAds);
-                        validDate = l.date.compareTo(mail.date) > 0;
-                        validSubject = mail.subject.contains(l.subject) || l.subject.contains(mail.subject);
-                        value = findSimilarity(mail.sentMsg, l.qtdMsg);
-                        if (value >= 0.8) validQuote = true;
-                        validReply = toValid && validDate && validSubject && validQuote;
+                    fls.add(new mail(n, d, t, f, sub, sM, qM));
+                }
 
-                        if (validReply) {
-                            mail.replies.add(l);
+                // Bubble sort mail list fls
+                ArrayList<mail> srtM = bubbleSort(fls);
+                boolean toValid, validDate, validSubject, validQuote;
+                double value;
+                for (mail mail : srtM) {
+                    validQuote = false;
+
+                    for (mail l : srtM) {
+                        for (String toAds : l.to) {
+                            // check if mail l is a reply
+                            toValid = mail.from.equals(toAds);
+                            validDate = l.date.compareTo(mail.date) > 0;
+                            validSubject = mail.subject.contains(l.subject) || l.subject.contains(mail.subject);
+                            // For program efficiency sake
+                            if (toValid & validDate & validSubject) {
+                                value = findSimilarity(mail.sentMsg, l.qtdMsg);
+                                if (value >= 0.8) validQuote = true;
+
+                                if (validQuote) {
+                                    mail.replies.add(l);
+                                }
+                            }
                         }
                     }
                 }
-            }
+                for (mail s : srtM) {
+                    if (s.flag) {
+                        continue;
+                    }
 
-            for (mail s : srtM) {
-                if (s.flag) {
-                    continue;
+                    boolean[] flag = new boolean[s.replies.size() + 1];
+                    Arrays.fill(flag, true);
+
+                    printNTree(s, flag, 0, false);
+                    s.flag = true;
+                    System.out.println();
                 }
-
-                boolean[] flag = new boolean[s.replies.size() + 1];
-                Arrays.fill(flag, true);
-
-                printNTree(s, flag, 0, false);
-                s.flag = true;
-                System.out.println();
+            }
+            case "999" -> {
+                String quotedOut = getQuotedReply("M/mail8.txt");
+                System.out.println(quotedOut);
             }
         }
     }
