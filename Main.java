@@ -393,7 +393,7 @@ public class Main {
             return;
         }
 
-        for (int i = 1; i < depth; ++i) {
+        for (int i = 1; i < depth && i < flag.length; ++i) {
             if (flag[i]) {
                 System.out.print("| "
                         + " "
@@ -413,21 +413,31 @@ public class Main {
             System.out.println(x.name + ", " + x.date);
         }
         else if (isLast) {
-            System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
-            flag[depth] = false;
+            //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
+            System.out.print("+--- " +  x.name + ", " + x.date + '\n');
+            if (depth < flag.length) {
+                flag[depth] = false;
+            }
         }
         else {
-            System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
+            //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
+            System.out.print("+--- " +  x.name + ", " + x.date + '\n');
         }
 
         int it = 0;
+        int size = 1;
         for (mail i : x.replies) {
             ++it;
-            printNTree(i,flag, depth+1,it==(x.replies.size())-1);
+            if (x.replies != null) {
+                size = x.replies.size();
+            }
+            printNTree(i,flag, depth+1,it==size-1);
         }
-        flag[depth] = true;
-    }
 
+        if (depth < flag.length) {
+            flag[depth] = true;
+        }
+    }
 
     public static void main(String[] args) {
         System.out.println("=================================================");
@@ -511,6 +521,8 @@ public class Main {
                 Arrays.fill(flag, true);
 
                 printNTree(s, flag, 0, false);
+
+                System.out.println();
             }
 
 
