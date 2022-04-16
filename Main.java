@@ -393,7 +393,13 @@ public class Main {
         String sentMsg = getSentMessage(f1);
         String qtdFull = getQuotedFull(f2);
         String firstLine = getSentFirstLine(f1);
-        int degree = getDescendentDegree(f2,firstLine);
+        int degree;
+        if (firstLine == null) {
+            degree = -1;
+        } else {
+            degree = getDescendentDegree(f2,firstLine);
+        }
+
         if (qtdFull.contains(sentMsg)) {
             System.out.println(ANSI_GREEN + "✓ The first email is quoted fully by the second." + ANSI_RESET);
         }
