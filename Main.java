@@ -67,6 +67,70 @@ public class Main {
         return address;
     }
 
+    private static String getMessageID(String fName) {
+        String address = null;
+        String[] temp;
+
+        try {
+            File myObj = new File(fName);
+            Scanner myReader = new Scanner(myObj);
+
+            // Reading and processing the input
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if (data.matches("Message-ID:.*")) {
+                    if (data.contains("<")) {
+                        temp = data.split("<");
+                        address = temp[1].replace(">", "").trim();
+                    } else {
+                        temp = data.split(" ");
+                        address = temp[1].trim();
+                    }
+                    break;
+                }
+            }
+
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An Error Occurred.");
+            e.printStackTrace();
+        }
+        return address;
+    }
+
+    private static String getInReplyTo(String fName) {
+        String address = null;
+        String[] temp;
+
+        try {
+            File myObj = new File(fName);
+            Scanner myReader = new Scanner(myObj);
+
+            // Reading and processing the input
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if (data.matches("In-Reply-To:.*")) {
+                    if (data.contains("<")) {
+                        temp = data.split("<");
+                        address = temp[1].replace(">", "").trim();
+                    } else {
+                        temp = data.split(" ");
+                        address = temp[1].trim();
+                    }
+                    break;
+                }
+            }
+
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An Error Occurred.");
+            e.printStackTrace();
+        }
+        return address;
+    }
+
     private static Date getDate(String fName) {
         String  rawDate;
         Date date = null;
@@ -267,6 +331,9 @@ public class Main {
         String fromAddress2 = getFromAddress(f2);
         ArrayList<String> S2 = getToAddress(f2);
 
+        String messageId = getMessageID(f1);
+        String replyToId = getInReplyTo(f2);
+
         prefaceCheck(f1, f2);
 
         boolean validSent = false;
@@ -295,6 +362,15 @@ public class Main {
         if (!valid) {
             System.out.println(ANSI_RED + "x The first email's 'from address' and corresponding email's 'to address' " +
                     "are not equivalent" + ANSI_RESET);
+        }
+
+        if (messageId.equals(replyToId)) {
+            System.out.println(ANSI_GREEN + "✓ The first email's 'messageID' matches the corresponding email's " +
+                    "'inReplyTo'" + ANSI_RESET);
+        }
+        else {
+            System.out.println(ANSI_RED + "x The first email's 'messageID' does not match the corresponding email's " +
+                    "'inReplyTo'" + ANSI_RESET);
         }
 
         double percentage = findSimilarity(getSentMessage(f1), getQuotedReply(f2));
@@ -488,6 +564,7 @@ public class Main {
                         else {
                             output = reply.toString().trim();
                             output = output.replace("  ", " ");
+                            output = output.replace("=", "");
                             return output;
                         }
                     }
