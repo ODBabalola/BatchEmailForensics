@@ -238,14 +238,9 @@ public class Main {
         return sub1.contains(sub2) || sub2.contains(sub1);
     }
 
-    private static void checkReply(String f1, String f2) {
-        String fromAddress = getFromAddress(f1);
+    private static void prefaceCheck(String f1, String f2) {
         Date date = getDate(f1);
-        ArrayList<String> S = getToAddress(f1);
-
-        String fromAddress2 = getFromAddress(f2);
         Date date2 = getDate(f2);
-        ArrayList<String> S2 = getToAddress(f2);
 
         System.out.println("=================================================");
         boolean reply = checkSubject(f1,f2);
@@ -255,6 +250,24 @@ public class Main {
         else {
             System.out.println(ANSI_RED + "x Email subjects do not match" + ANSI_RESET);
         }
+
+        if (date2.compareTo(date) > 0) {
+            System.out.println(ANSI_GREEN + "✓ The date from the corresponding email occurs after the first email"
+                    + ANSI_RESET);
+        } else {
+            System.out.println(ANSI_RED + "x The date from the corresponding email does not occur " +
+                    "after the first email" + ANSI_RESET);
+        }
+    }
+
+    private static void checkReply(String f1, String f2) {
+        String fromAddress = getFromAddress(f1);
+        ArrayList<String> S = getToAddress(f1);
+
+        String fromAddress2 = getFromAddress(f2);
+        ArrayList<String> S2 = getToAddress(f2);
+
+        prefaceCheck(f1, f2);
 
         boolean validSent = false;
         for (String sent : S) {
@@ -284,14 +297,6 @@ public class Main {
                     "are not equivalent" + ANSI_RESET);
         }
 
-        if (date2.compareTo(date) > 0) {
-            System.out.println(ANSI_GREEN + "✓ The date from the corresponding email occurs after the first email"
-                     + ANSI_RESET);
-        } else {
-            System.out.println(ANSI_RED + "x The date from the corresponding email does not occur " +
-                    "after the first email" + ANSI_RESET);
-        }
-
         double percentage = findSimilarity(getSentMessage(f1), getQuotedReply(f2));
         percentage *= 100;
 
@@ -304,8 +309,28 @@ public class Main {
                     " message is : " + percentage + "%" + ANSI_RESET));
         }
 
-
         System.out.println("=================================================");
+    }
+
+    private static void checkDescendant(String f1, String f2) {
+        prefaceCheck(f1,f2);
+        String sentMsg = getSentMessage(f1);
+        String qtdFull = getQuotedFull(f2);
+        String firstLine = getSentFirstLine(f1);
+        int degree = getDescendentDegree(f2,firstLine);
+        if (qtdFull.contains(sentMsg)) {
+            System.out.println(ANSI_GREEN + "✓ The first email is quoted fully by the second." + ANSI_RESET);
+        }
+        else {
+            System.out.println(ANSI_RED + "x The first email is NOT quoted fully by the second." + ANSI_RESET);
+        }
+
+        if (degree == -1) {
+            System.out.println(ANSI_RED + "x The reply degree/depth is not applicable." + ANSI_RESET);
+        }
+        else {
+            System.out.println(ANSI_GREEN + "✓ The reply degree/depth is: " + degree + ANSI_RESET);
+        }
     }
 
     private static int getEditDistance(String X, String Y) {
@@ -386,6 +411,62 @@ public class Main {
         return output;
     }
 
+    private static String getSentFirstLine(String fName) {
+        try {
+            File myObj = new File(fName);
+            Scanner myReader = new Scanner(myObj);
+
+            // Reading and processing the input
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if (data.contains("Content-Type: text/")) {
+                    while (myReader.hasNextLine()) {
+                        data = myReader.nextLine();
+                        if (!data.contains("Content-Transfer-Encoding") && !data.contains("--")
+                                && !data.contains("wrote:")) {
+                            return data.trim();
+                        }
+                    }
+                    break;
+                }
+            }
+
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An Error Occurred.");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static int getDescendentDegree(String fName, String line) {
+        try {
+            File myObj = new File(fName);
+            Scanner myReader = new Scanner(myObj);
+
+            // Reading and processing the input
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if (data.contains(line)) {
+                    String[] result = data.trim().split(" ",2);
+                    System.out.println("Testing!");
+                    System.out.println(result[0]);
+                    return result[0].length();
+                }
+            }
+
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An Error Occurred.");
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
     private static String getQuotedReply(String fName) {
         StringBuilder reply = new StringBuilder();
         String output;
@@ -401,6 +482,47 @@ public class Main {
                     while (myReader.hasNextLine()) {
                         data = myReader.nextLine();
                         if (!data.contains("--") && !data.contains("> wrote:")) {
+                            //data += " ";
+                            data = data.replace(">","");
+                            reply.append(data);
+                        }
+                        else {
+                            output = reply.toString().trim();
+                            output = output.replace("  ", " ");
+                            return output;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An Error Occurred.");
+            e.printStackTrace();
+        }
+
+        output = reply.toString().trim();
+        output = output.replace("  ", " ");
+        return output;
+    }
+
+    private static String getQuotedFull(String fName) {
+        StringBuilder reply = new StringBuilder();
+        String output;
+
+        try {
+            File myObj = new File(fName);
+            Scanner myReader = new Scanner(myObj);
+
+            // Reading and processing the input
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if (data.contains("wrote:")) {
+                    while (myReader.hasNextLine()) {
+                        data = myReader.nextLine();
+                        if (!data.contains("--")) {
                             //data += " ";
                             data = data.replace(">","");
                             reply.append(data);
@@ -505,13 +627,15 @@ public class Main {
         System.out.println(ANSI_BLUE + "TASK" + ANSI_RESET);
         System.out.println(ANSI_GREEN + "1" + ANSI_RESET + ": Validate if an email is a reply to another email");
         System.out.println(ANSI_GREEN + "2" + ANSI_RESET + ": Graphically contextualise email communications");
+        System.out.println(ANSI_GREEN + "3" + ANSI_RESET + ": Validate if an email is a descendent to another email" +
+                "and to what degree");
         System.out.println();
         System.out.print("Enter Task: ");
         String task = userInput.nextLine();
 
+        System.out.println("=================================================");
         switch (task) {
             case "1" -> {
-                System.out.println("=================================================");
                 System.out.println("Enter the file name for the first email:");
                 String fileName = userInput.nextLine(); // Read user input
                 printAttributes(fileName);
@@ -525,7 +649,6 @@ public class Main {
                 System.out.println(getQuotedReply(fileName2));
             }
             case "2" -> {
-                System.out.println("=================================================");
                 System.out.println("Select email files:");
                 JFileChooser chooser = new JFileChooser();
                 chooser.setDialogTitle("Select email files.");
@@ -592,6 +715,17 @@ public class Main {
                     s.flag = true;
                     System.out.println();
                 }
+            }
+            case "3" -> {
+                System.out.println("File name for the first email:");
+                String fileN = userInput.nextLine(); // Read user input
+                printAttributes(fileN);
+                System.out.println("=================================================");
+                System.out.println("File name for the second email:");
+                String fileN2 = userInput.nextLine(); // Read user input
+                System.out.println("=================================================");
+                printAttributes(fileN2);
+                checkDescendant(fileN,fileN2);
             }
             case "999" -> {
                 String quotedOut = getQuotedReply("M/mail8.txt");
