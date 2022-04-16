@@ -451,6 +451,7 @@ public class Main {
                 String data = myReader.nextLine();
                 if (data.contains(line)) {
                     String[] result = data.trim().split(" ",2);
+                    //System.out.println(result[0]);
                     return result[0].length();
                 }
             }
@@ -722,8 +723,8 @@ public class Main {
                 System.out.println("File name for the second email:");
                 String fileN2 = userInput.nextLine(); // Read user input
                 System.out.println("=================================================");
-                System.out.println("(i.e. A depth/degree/level of 2 indicates a direct reply.");
                 printAttributes(fileN2);
+                System.out.println("(i.e. A depth/degree/level of 1 indicates a direct reply.)");
                 checkDescendant(fileN,fileN2);
             }
             case "999" -> {
