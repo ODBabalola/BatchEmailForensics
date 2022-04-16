@@ -6,12 +6,12 @@ import java.text.SimpleDateFormat; // Import this class to format string dates
 import java.text.ParseException; // Import class for parse exception
 
 class mail {
-    public mail(String n, Date d, ArrayList<String> t, String f,
+    public mail(String n, Date d, String t, String f,
                 String sub, String sM, String qM) {
         name = n;
         date = d;
-        to = t;
-        from = f;
+        replyToId = t;
+        messageId = f;
         replies = new ArrayList<>();
         flag = false;
         subject = sub;
@@ -20,8 +20,8 @@ class mail {
     }
     public String name;
     public Date date;
-    public ArrayList<String> to;
-    public String from;
+    public String replyToId;
+    public String messageId;
     public ArrayList<mail> replies;
     public String subject;
     public boolean flag;
@@ -738,15 +738,14 @@ public class Main {
                 ArrayList<mail> fls = new ArrayList<>();
 
                 // Create mail objects from all the selected files for querying
-                ArrayList<String> t;
-                String path, n, f, sub, sM, qM;
+                String path, n,t, f, sub, sM, qM;
                 Date d;
                 for (File fn : files) {
                     path = fn.toPath().toString();
                     n = fn.getName();
                     d = getDate(path);
-                    t = getToAddress(path);
-                    f = getFromAddress(path);
+                    t = getInReplyTo(path);
+                    f = getMessageID(path);
                     sub = getSubject(path);
                     sM = getSentMessage(path);
                     qM = getQuotedReply(path);
@@ -762,19 +761,17 @@ public class Main {
                     validQuote = false;
 
                     for (mail l : srtM) {
-                        for (String toAds : l.to) {
-                            // check if mail l is a reply
-                            toValid = mail.from.equals(toAds);
-                            validDate = l.date.compareTo(mail.date) > 0;
-                            validSubject = mail.subject.contains(l.subject) || l.subject.contains(mail.subject);
-                            // For program efficiency sake
-                            if (toValid & validDate & validSubject) {
-                                value = findSimilarity(mail.sentMsg, l.qtdMsg);
-                                if (value >= 0.8) validQuote = true;
+                        // check if mail l is a reply
+                        toValid = mail.messageId.equals(l.replyToId);
+                        validDate = l.date.compareTo(mail.date) > 0;
+                        validSubject = mail.subject.contains(l.subject) || l.subject.contains(mail.subject);
+                        // For program efficiency sake
+                        if (toValid & validDate & validSubject) {
+                            value = findSimilarity(mail.sentMsg, l.qtdMsg);
+                            if (value >= 0.8) validQuote = true;
 
-                                if (validQuote) {
-                                    mail.replies.add(l);
-                                }
+                            if (validQuote) {
+                                mail.replies.add(l);
                             }
                         }
                     }
@@ -801,6 +798,7 @@ public class Main {
                 String fileN2 = userInput.nextLine(); // Read user input
                 System.out.println("=================================================");
                 printAttributes(fileN2);
+                System.out.println("=================================================");
                 System.out.println("(i.e. A depth/degree/level of 1 indicates a direct reply.)");
                 checkDescendant(fileN,fileN2);
             }
