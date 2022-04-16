@@ -202,7 +202,7 @@ public class Main {
         }
 
         System.out.printf(format, "The To Address: ", output);
-        System.out.println();
+        //System.out.println();
     }
 
     private static String getSubject(String fName) {
@@ -329,7 +329,7 @@ public class Main {
             System.out.println(ANSI_RED + "x The reply degree/depth is not applicable." + ANSI_RESET);
         }
         else {
-            System.out.println(ANSI_GREEN + "✓ The reply degree/depth is: " + degree + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "✓ The reply degree/depth/level is: " + degree + ANSI_RESET);
         }
     }
 
@@ -423,7 +423,7 @@ public class Main {
                     while (myReader.hasNextLine()) {
                         data = myReader.nextLine();
                         if (!data.contains("Content-Transfer-Encoding") && !data.contains("--")
-                                && !data.contains("wrote:")) {
+                                && !data.contains("wrote:") && !data.isBlank()) {
                             return data.trim();
                         }
                     }
@@ -451,8 +451,6 @@ public class Main {
                 String data = myReader.nextLine();
                 if (data.contains(line)) {
                     String[] result = data.trim().split(" ",2);
-                    System.out.println("Testing!");
-                    System.out.println(result[0]);
                     return result[0].length();
                 }
             }
@@ -724,6 +722,7 @@ public class Main {
                 System.out.println("File name for the second email:");
                 String fileN2 = userInput.nextLine(); // Read user input
                 System.out.println("=================================================");
+                System.out.println("(i.e. A depth/degree/level of 2 indicates a direct reply.");
                 printAttributes(fileN2);
                 checkDescendant(fileN,fileN2);
             }
