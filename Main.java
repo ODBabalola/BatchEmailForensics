@@ -27,6 +27,7 @@ class mail {
     public boolean flag;
     public String sentMsg;
     public String qtdMsg;
+    public double similarity;
 }
 
 public class Main {
@@ -652,6 +653,9 @@ public class Main {
             return;
         }
 
+        String str = String.format("%1$tB %1$td, %1$tY",x.date);
+        String str2 = String.format("%.2f", x.similarity);
+
         for (int i = 1; i < depth && i < flag.length; ++i) {
             if (flag[i]) {
                 System.out.print("| "
@@ -669,11 +673,11 @@ public class Main {
 
         // root
         if (depth == 0) {
-            System.out.println(x.name + ", " + x.date);
+            System.out.println(x.name + ", " + str); //replaced x.date
         }
         else if (isLast) {
             //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
-            System.out.print("└── " +  x.name + ", " + x.date + '\n');
+            System.out.print("└── " +  x.name + ", " + str + ", Quoted Similarity: " + str2 + "%" +'\n');
             x.flag = true;
             if (depth < flag.length) {
                 flag[depth] = false;
@@ -681,7 +685,7 @@ public class Main {
         }
         else {
             //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
-            System.out.print("└── " +  x.name + ", " + x.date + '\n');
+            System.out.print("└── " +  x.name + ", " +str + ", Quoted Similarity: " + str2 + "%" + '\n');
             x.flag = true;
         }
 
@@ -739,6 +743,7 @@ public class Main {
                 // Show the dialog; wait until dialog is closed
                 chooser.showOpenDialog(null);
 
+                System.out.println("=================================================");
                 // Retrieve the selected files.
                 File[] files = chooser.getSelectedFiles();
                 ArrayList<mail> fls = new ArrayList<>();
@@ -775,6 +780,7 @@ public class Main {
                         if (toValid & validDate & validSubject) {
                             value = findSimilarity(mail.sentMsg, l.qtdMsg);
                             if (value >= 0.8) validQuote = true;
+                            l.similarity = value * 100;
 
                             if (validQuote) {
                                 mail.replies.add(l);
