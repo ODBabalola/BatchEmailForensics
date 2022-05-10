@@ -677,8 +677,8 @@ public class Main {
         }
         else if (isLast) {
             //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
-            System.out.print("└── " +  x.name + ", " + str + ", Quoted Similarity: " + ANSI_GREEN +
-                    str2 + "%" + ANSI_RESET + '\n');
+            System.out.print("└── " +  x.name + ", " + ANSI_BLUE + str  + ANSI_RESET + ", Quoted Similarity: "
+                    + ANSI_GREEN + str2 + "%" + ANSI_RESET + '\n');
             x.flag = true;
             if (depth < flag.length) {
                 flag[depth] = false;
@@ -686,8 +686,8 @@ public class Main {
         }
         else {
             //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
-            System.out.print("└── " +  x.name + ", " +str + ", Quoted Similarity: " + ANSI_GREEN +
-                    str2 + "%" + ANSI_RESET + '\n');
+            System.out.print("└── " +  x.name + ", " + ANSI_BLUE + str  + ANSI_RESET  + ", Quoted Similarity: "
+                    + ANSI_GREEN + str2 + "%" + ANSI_RESET + '\n');
             x.flag = true;
         }
 
