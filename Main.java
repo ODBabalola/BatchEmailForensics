@@ -35,6 +35,9 @@ public class Main {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_BLUE = "\u001B[34m";
+    //public static final String ANSI_PURPLE = "\u001b[35m";
+    public static final String ANSI_B_YELLOW = "\u001b[1m\u001b[33m";
+    public static final String ANSI_BOLD = "\u001b[1m";
 
     private static String getFromAddress(String fName) {
         String address = null;
@@ -250,9 +253,9 @@ public class Main {
          */
         String format = "%-20s%s%n";
 
-        System.out.printf(format, "The From Address: ", fromAddress);
-        System.out.printf(format, "The Subject: ", subject);
-        System.out.printf(format, "The Date: ", date);
+        System.out.printf(format, ANSI_BOLD + "The From Address: \t" + ANSI_RESET, fromAddress);
+        System.out.printf(format, ANSI_BOLD + "The Subject: \t\t" + ANSI_RESET, subject);
+        System.out.printf(format, ANSI_BOLD + "The Date: \t\t\t" + ANSI_RESET, date);
 
         StringBuilder output = new StringBuilder();
 
@@ -266,7 +269,7 @@ public class Main {
             }
         }
 
-        System.out.printf(format, "The To Address: ", output);
+        System.out.printf(format, ANSI_BOLD + "The To Address: \t" + ANSI_RESET, output);
         //System.out.println();
     }
 
@@ -307,7 +310,7 @@ public class Main {
         Date date = getDate(f1);
         Date date2 = getDate(f2);
 
-        System.out.println("=================================================");
+        System.out.println("______________________________________________________");
         boolean reply = checkSubject(f1,f2);
         if (reply) {
             System.out.println(ANSI_GREEN + "✓ Email subjects match" + ANSI_RESET);
@@ -386,7 +389,7 @@ public class Main {
                     " message is : " + percentage + "%" + ANSI_RESET));
         }
 
-        System.out.println("=================================================");
+        System.out.println("______________________________________________________");
     }
 
     private static void checkDescendant(String f1, String f2) {
@@ -707,36 +710,44 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println("=================================================");
-        System.out.println("Program Starting....");
-        System.out.println("=================================================");
+        System.out.println("______________________________________________________");
+        System.out.println( ANSI_B_YELLOW + "Program Starting...." + ANSI_RESET);
+        System.out.println("______________________________________________________");
 
         Scanner userInput = new Scanner(System.in); // Create a Scanner object
-        System.out.println(ANSI_BLUE + "TASK" + ANSI_RESET);
-        System.out.println(ANSI_GREEN + "1" + ANSI_RESET + ": Validate if an email is a reply to another email");
-        System.out.println(ANSI_GREEN + "2" + ANSI_RESET + ": Graphically contextualise email communications");
-        System.out.println(ANSI_GREEN + "3" + ANSI_RESET + ": Validate if an email is a descendent to another email" +
-                "and to what degree");
-        System.out.println();
+        System.out.println(ANSI_BLUE + ANSI_BOLD + "TASK" + ANSI_RESET);
+        System.out.println(ANSI_GREEN + ANSI_BOLD + "1" + ANSI_RESET +
+                ": Validate if an email is a reply to another email");
+        System.out.println(ANSI_GREEN + ANSI_BOLD + "2" + ANSI_RESET +
+                ": Validate if an email is a forward to another email");
+        System.out.println(ANSI_GREEN + ANSI_BOLD + "3" + ANSI_RESET +
+                ": Graphically contextualise email communications");
+        System.out.println(ANSI_GREEN + ANSI_BOLD + "4" + ANSI_RESET +
+                ": Validate if an email is a descendent to another email and to what degree");
+        System.out.println("______________________________________________________");
         System.out.print("Enter Task: ");
         String task = userInput.nextLine();
 
-        System.out.println("=================================================");
+        System.out.println("______________________________________________________");
         switch (task) {
             case "1" -> {
                 System.out.println("Enter the file name for the first email:");
                 String fileName = userInput.nextLine(); // Read user input
+                System.out.println("______________________________________________________");
                 printAttributes(fileName);
-                System.out.println("=================================================");
+                System.out.println("______________________________________________________");
                 System.out.println("Enter the file name for the second email:");
                 String fileName2 = userInput.nextLine(); // Read user input
-                System.out.println("=================================================");
+                System.out.println("______________________________________________________");
                 printAttributes(fileName2);
                 checkReply(fileName, fileName2);
                 System.out.println(getSentMessage(fileName));
                 System.out.println(getQuotedReply(fileName2));
             }
             case "2" -> {
+
+            }
+            case "3" -> {
                 System.out.println("Select email files:");
                 JFileChooser chooser = new JFileChooser();
                 chooser.setDialogTitle("Select email files.");
@@ -745,7 +756,7 @@ public class Main {
                 // Show the dialog; wait until dialog is closed
                 chooser.showOpenDialog(null);
 
-                System.out.println("=================================================");
+                System.out.println("______________________________________________________");
                 // Retrieve the selected files.
                 File[] files = chooser.getSelectedFiles();
                 ArrayList<mail> fls = new ArrayList<>();
@@ -803,16 +814,16 @@ public class Main {
                     System.out.println();
                 }
             }
-            case "3" -> {
+            case "4" -> {
                 System.out.println("File name for the first email:");
                 String fileN = userInput.nextLine(); // Read user input
                 printAttributes(fileN);
-                System.out.println("=================================================");
+                System.out.println("______________________________________________________");
                 System.out.println("File name for the second email:");
                 String fileN2 = userInput.nextLine(); // Read user input
-                System.out.println("=================================================");
+                System.out.println("______________________________________________________");
                 printAttributes(fileN2);
-                System.out.println("=================================================");
+                System.out.println("______________________________________________________");
                 System.out.println("(i.e. A depth/degree/level of 1 indicates a direct reply.)");
                 checkDescendant(fileN,fileN2);
             }
@@ -821,5 +832,6 @@ public class Main {
                 System.out.println(quotedOut);
             }
         }
+        System.out.println("______________________________________________________");
     }
 }
