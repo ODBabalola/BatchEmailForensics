@@ -732,14 +732,22 @@ public class Main {
         switch (task) {
             case "1" -> {
                 System.out.println("Enter the file name for the first email:");
-                String fileName = userInput.nextLine(); // Read user input
+                JFileChooser chooser = new JFileChooser();
+                chooser.setDialogTitle("Enter the file name for the first email.");
+                chooser.showOpenDialog(null);
+                String fileName = chooser.getSelectedFile().toPath().toString();
                 System.out.println("______________________________________________________");
                 printAttributes(fileName);
                 System.out.println("______________________________________________________");
+
                 System.out.println("Enter the file name for the second email:");
-                String fileName2 = userInput.nextLine(); // Read user input
+                JFileChooser chooser2 = new JFileChooser();
+                chooser2.setDialogTitle("Enter the file name for the second email.");
+                chooser2.showOpenDialog(null);
+                String fileName2 = chooser2.getSelectedFile().toPath().toString();
                 System.out.println("______________________________________________________");
                 printAttributes(fileName2);
+
                 checkReply(fileName, fileName2);
                 System.out.println(getSentMessage(fileName));
                 System.out.println(getQuotedReply(fileName2));
