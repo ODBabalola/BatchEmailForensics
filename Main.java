@@ -745,6 +745,22 @@ public class Main {
                 System.out.println(getQuotedReply(fileName2));
             }
             case "2" -> {
+                System.out.println("Select original email file:");
+                JFileChooser chooser = new JFileChooser();
+                chooser.setDialogTitle("Select original email file.");
+                chooser.showOpenDialog(null);
+                String orgFileName = chooser.getSelectedFile().toPath().toString();
+                System.out.println("______________________________________________________");
+                printAttributes(orgFileName);
+                System.out.println("______________________________________________________");
+
+                System.out.println("Select forwarded email file:");
+                JFileChooser chooser2 = new JFileChooser();
+                chooser2.setDialogTitle("Select forwarded email file.");
+                chooser2.showOpenDialog(null);
+                String fwdFileName = chooser2.getSelectedFile().toPath().toString();
+                System.out.println("______________________________________________________");
+                printAttributes(fwdFileName);
 
             }
             case "3" -> {
