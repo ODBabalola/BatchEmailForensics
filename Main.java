@@ -14,6 +14,7 @@ class mail {
         messageId = f;
         replies = new ArrayList<>();
         flag = false;
+        fwd = false;    // forwarded mail tag
         subject = sub;
         sentMsg = sM;
         qtdMsg = qM;
@@ -23,6 +24,7 @@ class mail {
     public String replyToId;
     public String messageId;
     public ArrayList<mail> replies;
+    public boolean fwd; // A tag to identify a forwarded mail within the replies array
     public String subject;
     public boolean flag;
     public String sentMsg;
@@ -35,7 +37,10 @@ public class Main {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_BLUE = "\u001B[34m";
-    //public static final String ANSI_PURPLE = "\u001b[35m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_Y_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_P_BACKGROUND = "\u001B[45m";
+    public static final String ANSI_PURPLE = "\u001b[35m";
     public static final String ANSI_B_YELLOW = "\u001b[1m\u001b[33m";
     public static final String ANSI_BOLD = "\u001b[1m";
 
@@ -769,22 +774,16 @@ public class Main {
 
         // root
         if (depth == 0) {
-            System.out.println(x.name + ", " + str); //replaced x.date
+            System.out.println(x.name + ", " + ANSI_BLUE + str + ANSI_RESET); //replaced x.date
         }
         else if (isLast) {
-            //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
-            System.out.print("└── " +  x.name + ", " + ANSI_BLUE + str  + ANSI_RESET + ", Quoted Similarity: "
-                    + ANSI_GREEN + str2 + "%" + ANSI_RESET + '\n');
-            x.flag = true;
+            treeBranches(x, str, str2);
             if (depth < flag.length) {
                 flag[depth] = false;
             }
         }
         else {
-            //System.out.print("├──--- " +  x.name + ", " + x.date + '\n');
-            System.out.print("└── " +  x.name + ", " + ANSI_BLUE + str  + ANSI_RESET  + ", Quoted Similarity: "
-                    + ANSI_GREEN + str2 + "%" + ANSI_RESET + '\n');
-            x.flag = true;
+            treeBranches(x, str, str2);
         }
 
         int it = 0;
@@ -800,6 +799,22 @@ public class Main {
         if (depth < flag.length) {
             flag[depth] = true;
         }
+    }
+
+    private static void treeBranches(mail x, String str, String str2) {
+         /*
+            If the mail is actually a forwarded mail, and not a reply mail.
+            It should be shown with a different printout syntax
+         */
+        if (!x.fwd) {
+            System.out.print(ANSI_YELLOW + "└── " + ANSI_RESET +  x.name + ", " + ANSI_BLUE + str + ANSI_RESET +
+                    ", Quoted Similarity: " + ANSI_GREEN + str2 + "%" + ANSI_RESET + '\n');
+        }
+        else {
+            System.out.print(ANSI_PURPLE + "└── " + ANSI_RESET +  x.name + ", " + ANSI_BLUE + str + ANSI_RESET +
+                    ", Quoted Forward Similarity: " + ANSI_GREEN + str2 + "%" + ANSI_RESET + '\n');
+        }
+        x.flag = true;
     }
 
     public static void main(String[] args) {
@@ -892,9 +907,19 @@ public class Main {
                     f = getMessageID(path);
                     sub = getSubject(path);
                     sM = getSentMessage(path);
+                    // If the email does not contain a quoted reply,
+                    // the qM variable should store the quoted forward
                     qM = getQuotedReply(path);
+                    if (qM.equals("")) {
+                        qM = getQuotedForward(path);
+                        mail node = new mail(n, d, t, f, sub, sM, qM);
+                        node.fwd = true;
+                        fls.add(node);
+                    }
+                    else {
+                        fls.add(new mail(n, d, t, f, sub, sM, qM));
+                    }
 
-                    fls.add(new mail(n, d, t, f, sub, sM, qM));
                 }
 
                 // Bubble sort mail list fls
@@ -921,6 +946,10 @@ public class Main {
                         }
                     }
                 }
+                System.out.println(ANSI_Y_BACKGROUND + " Yellow line for a replied mail " + ANSI_RESET);
+                System.out.println(ANSI_P_BACKGROUND + " Magenta line for a forwarded mail " + ANSI_RESET);
+                System.out.println("******************************************************");
+
                 for (mail s : srtM) {
                     if (s.flag) {
                         continue;
