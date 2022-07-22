@@ -392,6 +392,55 @@ public class Main {
         System.out.println("______________________________________________________");
     }
 
+    private static void checkForward(String f1, String f2) {
+        prefaceCheck(f1, f2);
+
+        ArrayList<String> S = getToAddress(f1);
+
+        String fromAddress = getFromAddress(f1);
+        String fromAddress2 = getFromAddress(f2);
+
+        String messageId = getMessageID(f1);
+        String replyToId = getInReplyTo(f2);
+
+        boolean validSent = false;
+        for (String sent : S) {
+            if (sent.equals(fromAddress2) || fromAddress.equals(fromAddress2)) {
+                validSent = true;
+                System.out.println(ANSI_GREEN + "✓ The original email was sent to the second email's address: "
+                        + sent + ANSI_RESET);
+            }
+        }
+
+        if (!validSent) {
+            System.out.println(ANSI_RED + "x The original email was not sent to the second " +
+                    "email's address" + ANSI_RESET);
+        }
+
+        if (messageId.equals(replyToId)) {
+            System.out.println(ANSI_GREEN + "✓ The first email's 'messageID' matches the corresponding email's " +
+                    "'inReplyTo'" + ANSI_RESET);
+        }
+        else {
+            System.out.println(ANSI_RED + "x The first email's 'messageID' does not match the corresponding email's " +
+                    "'inReplyTo'" + ANSI_RESET);
+        }
+
+        double percentage = findSimilarity(getSentMessage(f1), getQuotedForward(f2));
+        percentage *= 100;
+
+        if (percentage > 79) {
+            System.out.println((ANSI_GREEN + "✓ The similarity between the sent message and the quoted forward" +
+                    " message is : " + percentage + "%" + ANSI_RESET));
+        }
+        else {
+            System.out.println((ANSI_RED + "x The similarity between the sent message and the quoted forward" +
+                    " message is : " + percentage + "%" + ANSI_RESET));
+        }
+
+        System.out.println("______________________________________________________");
+    }
+
     private static void checkDescendant(String f1, String f2) {
         prefaceCheck(f1,f2);
         String sentMsg = getSentMessage(f1);
@@ -472,7 +521,7 @@ public class Main {
                    while (myReader.hasNextLine()) {
                        data = myReader.nextLine();
                        if (!data.contains("Content-Transfer-Encoding") && !data.contains("--")
-                               && !data.contains("wrote:")) {
+                               && !data.contains("wrote:") && !data.contains("Mime-Version:")) {
                            data += " ";
                            message.append(data);
                        }
@@ -635,6 +684,50 @@ public class Main {
         return output;
     }
 
+    private static String getQuotedForward(String fName) {
+        StringBuilder fwd = new StringBuilder();
+        String output;
+
+        try {
+            File myObj = new File(fName);
+            Scanner myReader = new Scanner(myObj);
+
+            // Reading and processing the input
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if (data.contains("Forwarded message")) {
+                    while (myReader.hasNextLine()) {
+                        data = myReader.nextLine();
+                        if (!data.contains("--")) {
+                            if (!data.contains(": ")) {
+                                data = data.replace(">","");
+                                data = " " + data;
+                                fwd.append(data);
+                            }
+                        }
+                        else {
+                            output = fwd.toString().trim();
+                            output = output.replace("  ", " ");
+                            output = output.replace("=", "");
+                            return output;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An Error Occurred.");
+            e.printStackTrace();
+        }
+
+        output = fwd.toString().trim();
+        output = output.replace("  ", " ");
+        return output;
+    }
+
     private static ArrayList<mail> bubbleSort(ArrayList<mail> m) {
         int len = m.size();
         Date dateOne, dateTwo;
@@ -770,6 +863,9 @@ public class Main {
                 System.out.println("______________________________________________________");
                 printAttributes(fwdFileName);
 
+                checkForward(orgFileName, fwdFileName);
+                System.out.println(getSentMessage(orgFileName));
+                System.out.println(getQuotedForward(fwdFileName));
             }
             case "3" -> {
                 System.out.println("Select email files:");
