@@ -38,8 +38,6 @@ public class Main {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_Y_BACKGROUND = "\u001B[43m";
-    public static final String ANSI_P_BACKGROUND = "\u001B[45m";
     public static final String ANSI_PURPLE = "\u001b[35m";
     public static final String ANSI_B_YELLOW = "\u001b[1m\u001b[33m";
     public static final String ANSI_BOLD = "\u001b[1m";
@@ -308,6 +306,20 @@ public class Main {
         String sub1 = getSubject(fileName);
         String sub2 = getSubject(fileName2);
 
+        return checkSub(sub1, sub2);
+    }
+
+    private static boolean checkSub(String sub1, String sub2) {
+        if (sub1.contains(":")) {
+            String[] part1 = sub1.split(":");
+            sub1 = part1[1].trim();
+        }
+
+        if (sub2.contains(":")) {
+            String[] part2 = sub2.split(":");
+            sub2 = part2[1].trim();
+        }
+
         return sub1.contains(sub2) || sub2.contains(sub1);
     }
 
@@ -344,6 +356,17 @@ public class Main {
         String replyToId = getInReplyTo(f2);
 
         prefaceCheck(f1, f2);
+
+        String secondSubject = getSubject(f2);
+
+        if (secondSubject.contains("Re: ")) {
+            System.out.println(ANSI_GREEN + "✓ The second email contains the replied message indicator" +
+                    " in the subject" + ANSI_RESET);
+        }
+        else {
+            System.out.println(ANSI_RED + "x The second email does not contain the replied message indicator" +
+                    " in the subject" + ANSI_RESET);
+        }
 
         boolean validSent = false;
         for (String sent : S) {
@@ -408,18 +431,29 @@ public class Main {
         String messageId = getMessageID(f1);
         String replyToId = getInReplyTo(f2);
 
+        String secondSubject = getSubject(f2);
+
+        if (secondSubject.contains("Fwd: ")) {
+            System.out.println(ANSI_GREEN + "✓ The second email contains the forwarded message indicator" +
+                    " in the subject" + ANSI_RESET);
+        }
+        else {
+            System.out.println(ANSI_RED + "x The second email does not contain the forwarded message indicator" +
+                    " in the subject" + ANSI_RESET);
+        }
+
         boolean validSent = false;
         for (String sent : S) {
             if (sent.equals(fromAddress2) || fromAddress.equals(fromAddress2)) {
                 validSent = true;
-                System.out.println(ANSI_GREEN + "✓ The original email was sent to the second email's address: "
+                System.out.println(ANSI_GREEN + "✓ The original email was sent to the second email's from address: "
                         + sent + ANSI_RESET);
             }
         }
 
         if (!validSent) {
             System.out.println(ANSI_RED + "x The original email was not sent to the second " +
-                    "email's address" + ANSI_RESET);
+                    "from email's address" + ANSI_RESET);
         }
 
         if (messageId.equals(replyToId)) {
@@ -617,6 +651,16 @@ public class Main {
             // Reading and processing the input
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
+
+                /*
+                In the case the email is actually forward of a reply,
+                the forwarded message indicator would appear first and
+                thus an empty string should be returned
+                 */
+                if (data.contains("Forwarded message")) {
+                    return "";
+                }
+
                 if (data.contains("wrote:")) {
                     while (myReader.hasNextLine()) {
                         data = myReader.nextLine();
@@ -703,8 +747,11 @@ public class Main {
                 if (data.contains("Forwarded message")) {
                     while (myReader.hasNextLine()) {
                         data = myReader.nextLine();
-                        if (!data.contains("--")) {
-                            if (!data.contains(": ")) {
+                        // This ensures the quoted text does not read more lines than it should
+                        if (!data.contains("--") && !data.contains("> wrote:")) {
+                            // Forwarded messages contain attributes of the message being forwarded,
+                            // this need to be ignored.
+                            if (!data.contains(": ") && !(data.contains(" <") && data.contains(">"))) {
                                 data = data.replace(">","");
                                 data = " " + data;
                                 fwd.append(data);
@@ -933,7 +980,7 @@ public class Main {
                         // check if mail l is a reply
                         toValid = mail.messageId.equals(l.replyToId);
                         validDate = l.date.compareTo(mail.date) > 0;
-                        validSubject = mail.subject.contains(l.subject) || l.subject.contains(mail.subject);
+                        validSubject = checkSub(mail.subject, l.subject);
                         // For program efficiency sake
                         if (toValid & validDate & validSubject) {
                             value = findSimilarity(mail.sentMsg, l.qtdMsg);
@@ -946,9 +993,9 @@ public class Main {
                         }
                     }
                 }
-                System.out.println(ANSI_Y_BACKGROUND + " Yellow line for a replied mail " + ANSI_RESET);
-                System.out.println(ANSI_P_BACKGROUND + " Magenta line for a forwarded mail " + ANSI_RESET);
-                System.out.println("******************************************************");
+                System.out.println(ANSI_YELLOW + "└── - indicates a suspected reply" + ANSI_RESET);
+                System.out.println(ANSI_PURPLE + "└── - indicates a suspected forward" + ANSI_RESET);
+                System.out.println("______________________________________________________");
 
                 for (mail s : srtM) {
                     if (s.flag) {

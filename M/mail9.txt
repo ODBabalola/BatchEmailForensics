@@ -1,0 +1,331 @@
+Received: from PR3P193MB1054.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:ae::16)
+ by AS8P193MB2109.EURP193.PROD.OUTLOOK.COM with HTTPS; Fri, 22 Jul 2022
+ 02:18:23 +0000
+Received: from BN0PR04CA0126.namprd04.prod.outlook.com (2603:10b6:408:ed::11)
+ by PR3P193MB1054.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:ae::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.18; Fri, 22 Jul
+ 2022 02:18:22 +0000
+Received: from BN7NAM10FT023.eop-nam10.prod.protection.outlook.com
+ (2603:10b6:408:ed:cafe::73) by BN0PR04CA0126.outlook.office365.com
+ (2603:10b6:408:ed::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.21 via Frontend
+ Transport; Fri, 22 Jul 2022 02:18:22 +0000
+Authentication-Results: spf=pass (sender IP is 209.85.219.175)
+ smtp.mailfrom=tuks.co.za; dkim=pass (signature was verified)
+ header.d=tuks-co-za.20210112.gappssmtp.com;dmarc=bestguesspass action=none
+ header.from=tuks.co.za;compauth=pass reason=109
+Received-SPF: Pass (protection.outlook.com: domain of tuks.co.za designates
+ 209.85.219.175 as permitted sender) receiver=protection.outlook.com;
+ client-ip=209.85.219.175; helo=mail-yb1-f175.google.com; pr=C
+Received: from mail-yb1-f175.google.com (209.85.219.175) by
+ BN7NAM10FT023.mail.protection.outlook.com (10.13.156.231) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5458.17 via Frontend Transport; Fri, 22 Jul 2022 02:18:21 +0000
+X-IncomingTopHeaderMarker:
+ OriginalChecksum:3551544A43F27CC856EA291B43FFC6E697E38AF3D5DD4846E488F6345679DDD3;UpperCasedChecksum:20DA70055B837881698AD184440253C90A11D44F969CE3486C32941503E354B6;SizeAsReceived:2518;Count:15
+Received: by mail-yb1-f175.google.com with SMTP id 6so5863220ybc.8
+        for <odb34@outlook.com>; Thu, 21 Jul 2022 19:18:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuks-co-za.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=pcKfwxR06i8Z7NE3qTFA45vHXTd2aROs9Xfgl9ZMFPI=;
+        b=vP5gCI2zwVMBABVMa0CGZRh1C0lDf0UW22m1RIKtzuzDZ0vWzcEnk2FkQu8O9lolLQ
+         IO4IHrcdbUu8cj2XhwI+rDVJNRi9R9SWeCOMXLA4prjdT7rUH7QFNlc2zUZbqKiDWEDU
+         Pvvnt3CVyT9zS5Zg30E9DIVGzcKTndX39VII8THbPluZSqySrGZKy6W7DofMbs/VIn0q
+         VXc9eYl8STN+ekrgU+EQIDZTUohHT9DuNi8wsWQgAk5TiEafEkDbYkkFcq6JoLR2KYq+
+         sBnMU0r0jGyA5PtY/q3PsMvQ1glciqw0CmrAOx9Ad3KjRusrx7fRo1NdYD7zO7860XcV
+         WocQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=pcKfwxR06i8Z7NE3qTFA45vHXTd2aROs9Xfgl9ZMFPI=;
+        b=CcgWwoS0a2xp6skm5W854sC7siViMwxCqiyDWMY5udWmi0VR5TQ/TZKJ+8dH2PL/kI
+         BufvFAeD7g2UVCU5YcrcsvuwFuq3iMPQ/567+u/WQq+CUDa+r+YOGPAzi2b23EqiegeS
+         Xast6W+XVsD/y8uHMP2TwUmNliW2HP0pOfYTXhA0+0GfS0qfe/27l8wSKyVUIG5YKlP+
+         jHqv+CU58HXPgxbxUSpgUWRgjUzL4COx88uL3fgqmj+MxgLfaGikNCvNbP+MUc1NgtGM
+         j2iGMWurvlv+w8X7qskmwLh7rVCT95UV9rEGRa5zYdRqezgiiRqFlgGg39q9//l9G4Z0
+         qFtw==
+X-Gm-Message-State: AJIora/qCIiqaEssWWH5q9RYUK+49ILsY+faxDzaNaCauWPzN2X10XUJ
+	7Xp9jCC6JGWIJo4Cgr6sTAQuCUI3wOLpCOFi+Q05dCtnZIx6YAAuapNCL226PJppf1FMqetK1PW
+	+LbYSkmEGk9NaXJ6rnaBzCus=
+X-Google-Smtp-Source: AGRyM1vxAAGu9p8WW+kZIbbDU3x2Zgzlgpf43WbEGokl+60IHjnDsjDLCZELsc7QHr6oepvfKBpSLvo5gKDk7jUWlLE=
+X-Received: by 2002:a25:2d54:0:b0:670:8ea2:5f23 with SMTP id
+ s20-20020a252d54000000b006708ea25f23mr1287428ybe.114.1658456300680; Thu, 21
+ Jul 2022 19:18:20 -0700 (PDT)
+References: <CAG787w8RnKGEE1sPUrK=us5Gz0SArXtj0eJUwhcYyh-fdC8h1g@mail.gmail.com>
+ <CANEcd_cWYkfdRLAPR7-gVXc8C3MUamCuOAVS+NDM95iwRbpr8w@mail.gmail.com>
+In-Reply-To: <CANEcd_cWYkfdRLAPR7-gVXc8C3MUamCuOAVS+NDM95iwRbpr8w@mail.gmail.com>
+From: Oluwatokesi Babalola <u18041494@tuks.co.za>
+Date: Fri, 22 Jul 2022 04:18:10 +0200
+Message-ID: <CAMsre4rDp4RHzseWcd+b6QScB1BdCnro9Mqkb2bKvgEC60DEug@mail.gmail.com>
+Subject: Fwd: COS332 assistant work
+To: odb34@outlook.com
+Content-Type: multipart/alternative; boundary="000000000000ad930f05e45b724e"
+X-IncomingHeaderCount: 15
+Return-Path: u18041494@tuks.co.za
+X-MS-Exchange-Organization-ExpirationStartTime: 22 Jul 2022 02:18:21.2037
+ (UTC)
+X-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit
+X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000
+X-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit
+X-MS-Exchange-Organization-Network-Message-Id:
+ bf5e6b51-c3b3-4521-ed51-08da6b8872cb
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa:0
+X-MS-Exchange-Organization-MessageDirectionality: Incoming
+X-MS-PublicTrafficType: Email
+X-MS-Exchange-Organization-AuthSource:
+ BN7NAM10FT023.eop-nam10.prod.protection.outlook.com
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-MS-UserLastLogonTime: 7/22/2022 2:16:06 AM
+X-MS-Office365-Filtering-Correlation-Id: bf5e6b51-c3b3-4521-ed51-08da6b8872cb
+X-MS-TrafficTypeDiagnostic: PR3P193MB1054:EE_
+X-MS-Exchange-EOPDirect: true
+X-Sender-IP: 209.85.219.175
+X-SID-PRA: U18041494@TUKS.CO.ZA
+X-SID-Result: PASS
+X-MS-Exchange-Organization-PCL: 2
+X-MS-Exchange-Organization-SCL: 1
+X-Microsoft-Antispam: BCL:0;
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2022 02:18:21.1725
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf5e6b51-c3b3-4521-ed51-08da6b8872cb
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource:
+ BN7NAM10FT023.eop-nam10.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+ 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P193MB1054
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:02.1602395
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.5458.019
+X-Microsoft-Antispam-Mailbox-Delivery:
+	abwl:0;wl:0;pcwl:0;kl:0;iwl:0;ijl:0;dwl:0;dkl:0;rwl:0;ucf:0;jmr:0;ex:0;auth:1;dest:I;ENG:(5062000285)(90000117)(90005022)(91005020)(90014020)(91030020)(91040095)(5061607266)(5061608174)(9050020)(9100338)(2008001134)(4810004)(4910033)(9575002)(10195002)(9320005);
+X-Message-Info:
+	5vMbyqxGkddbHVl68g2w3xZy76E3RxFjFTiPspQA/wtRSdpu1IKt98MRDn0uZUyAHHaAADlM57mRAxRncjr0lu4q9Lfwj1NUVSjcOaaNrIzaqGGKsyZxIv0xdKCHFosblUN31sexOFYjaAR4TGxMbfiAm/uzIFrYacPiex43XGp/V2fuGfvQ8c5gGZY0a5tth2+jhzfxNciHedfsyoBSLw==
+X-Message-Delivery: Vj0xLjE7dXM9MDtsPTA7YT0xO0Q9MTtHRD0xO1NDTD0z
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QTRLQndlR01yQVJiTEFvN0JsanBjekxteGJDYVF5VEgyMnYybFA1UjBYQmw2?=
+ =?utf-8?B?OGM2OHhDMWJxTVlyYnBiZkdFdHNyNzFMdGdXWDY1TWJBS1VuZnBNMUd6U1RV?=
+ =?utf-8?B?TGFZYTVielBzS0JFV3ZwSG1XSHFBbUkvbmpIN0d6T2xsVk1oM2YzdmpoWTNn?=
+ =?utf-8?B?U1djOGV2MWZ4RGRsS2QrSTFVVm9OZzlNYmpkeFpSbnQ4bGs3cWlWM0t4aDFS?=
+ =?utf-8?B?UW5INGJ6cXhUaWcxc0dVWHMvazVtU0NzU1JaUm9rOUptaFl2Mk5pMDVNVTZt?=
+ =?utf-8?B?VFE5eURZWDJzNzlqRzlmb0R5QUZhUHd3M21Gb2x3eUhOcnMxdWtUcC8weXZI?=
+ =?utf-8?B?SHFNOXAvV3hucWx1ditWR0ZXcFhLNkdTaDNVVFBMaDJ5QnlFSWZIK00xbTIr?=
+ =?utf-8?B?QkhPTXVmTUdrNHRpNlo4OUpOYWFqZHlOUUw1ckY3TmF3VDZRZE8rci84am9T?=
+ =?utf-8?B?WGI2Z3hTQUF3OEpNQ3pHWWxqdFppMXV1OHBsSU5nRXRmSUpNcGJac2dBOG8w?=
+ =?utf-8?B?eHhhU3ZqdVlRWmlJdFU2Q285NkdRTDl5aVVZbXNLaEk3TXRxNy9DdUZNLzBG?=
+ =?utf-8?B?NUdpK0ZBTUhWWnZCSktZdWp2bEJWSjBLSkdYVDc0ektRUWNQdTR1UlgxRU5S?=
+ =?utf-8?B?Ry9TZkVkU2ppMWp3eDBWb3A3U2lsYzFvL3RIU2pmTXVEa1owcFRmMlpoNmtS?=
+ =?utf-8?B?VW5xZmx3Y0ttVHQyS1M0YXY1eEpiQWFmVE5oVCtYK251S1lmWmRVcWl6SE85?=
+ =?utf-8?B?b0QxaURyZnhIR3hZWnRFdkVXeHFTS2lMck44S2RlcUNVZzF0ZjhlaDNFbzl5?=
+ =?utf-8?B?VEttci9nd2cxT0I2QnQxSVJLcVFIYU5nMHErZU9zNzB6L2l0VmhQcm1RQUc0?=
+ =?utf-8?B?bGJ5b293b0R4Skk1NDY0WVVHTS8vWHl4K1ZVU2lKSXN0SVpHc1k2MlgwUkI3?=
+ =?utf-8?B?d1pGSzZHc0dDcnpqZ051dE1SVThOem1KcklRd1JoZjR2VFdQSFo1Vkc1QTN4?=
+ =?utf-8?B?R2dRTGE1L2toUkRtVENOY0xLQTltVVd6YUF3b0x1dmQ1cU0vRmFOQlRzck0v?=
+ =?utf-8?B?MHhYN3NpeVpYQzROd3VTMW1ieEZSV2FzeG9KTENoYnBFbW1uVWhYNEx3a1hL?=
+ =?utf-8?B?THRtSDlwNHlQZnFBL01JZUpuMVFzS3lYaE1tNzhvaFNqSE1sR0huV3FZRmhw?=
+ =?utf-8?B?UGNOaEEyWVhWMVJmMityZTB2a1RjS01OTzNobmdZUytVTUl2N2VNU3NXdjZz?=
+ =?utf-8?B?NWRYU3I3SWtHYzM4UlIzWFF2TFJoVlAzMENLVVFwMlFSSFErYVhlS1RGSHFo?=
+ =?utf-8?B?WS9HeGs5ZWc4V0s5MjN1VmJwU2x3VGFFWXRZLzBxKzQ1ZjRtK09vREpWZUxo?=
+ =?utf-8?B?M2xyamE2bHovQTBWaFE2Rm5zTVhEbDJzdit1WmEvRjhZU04yM1ZjZGFjUlpY?=
+ =?utf-8?B?dGNUYVRkMlY4VnFiOEpSa1BGbkM1OHl1Tmc1b214MTN3TXZxZFpLV0JMZDVj?=
+ =?utf-8?B?MDdjMGdHSHZEOU4wTzJQTld1cFpVMWV4aDFVOXRlcW5BbkE3b0R0eUIxQ1NC?=
+ =?utf-8?B?d2hVSFd5T1ZyRWpoQ3UvNnpqSit3OE50c0pYS1BYdXJNVnZmR05kYXpSUzRa?=
+ =?utf-8?B?bHhxWHBoQTBPRG5XNXI3RXJ5NlhsOGFmOFZ0ZEpsS1pNaHFZK3ZKMVdIeTdH?=
+ =?utf-8?B?cXpyNlBnRjBqdnRRemxaTFFSdTZPaXhTRVBDOWJxdkk2MTg1UWRpZzgxVEFL?=
+ =?utf-8?B?ZTJ1cjV3L01DS2xnQjdHQXp0d0ovRk5GY0NWQ21kYjZkb2Y5UERBUmJGZDFy?=
+ =?utf-8?B?dmZLdnJWejlQbmpFekRNVXlzMVJsY3BESk94SXZ5OHlzTTAyMHhOSnhiTy9B?=
+ =?utf-8?B?UVR3TTE3TDVMaXpxdnR2TVRJVEZ5QlAwU1Z0QWpUV29YejdPTllIV3ZaTndB?=
+ =?utf-8?B?OWVNTzRrbnNweHJnV3Y4VlQwVGhDQ2tjVnZaMlFuYlVuUjhhd2pqSytQVDZT?=
+ =?utf-8?B?R0JtZmx0TWlobDdwT045NjZxeENYRVJDaHc1TXVDWmJaWVVuL1BHRFBSbGd2?=
+ =?utf-8?B?WTJZNUdZMUFiQkF1MUY5VCtHcHk1WEF5RUF4RWViVTFXVzlnT0QvRzZKWVU5?=
+ =?utf-8?Q?45OtXncT4Le/+3y8dlnTzouSa?=
+MIME-Version: 1.0
+
+--000000000000ad930f05e45b724e
+Content-Type: text/plain; charset="UTF-8"
+
+---------- Forwarded message ---------
+From: Lionel Ntiranyibagira <u19300001@tuks.co.za>
+Date: Fri, 4 Mar 2022 at 16:32
+Subject: Re: COS332 assistant work
+To: Martin Olivier <molivier@cs.up.ac.za>
+Cc: Mrs. Rachel Kufakunesu <rkufakunesu@gmail.com>, Mr. Oluwatokesi
+Babalola <u18041494@tuks.co.za>, Mr. Peter Okumbe <u18052640@tuks.co.za>
+
+
+Good afternoon Prof,
+
+I am also available on Tuesdays at the indicated time. Friday's slot
+(9:30-12:20) would be perfect for me as I have a meeting with my supervisor
+every 2 weeks Friday from 2:00 pm to 3:00 (sometimes we go beyond the
+schedule depending on the number of things to discuss).
+
+Regards,
+Lionel
+University of Pretoria
+Master's in Information Technology (Information Systems)
+MIT(IS)
+
+
+On Fri, 4 Mar 2022 at 14:01, Martin Olivier <molivier@cs.up.ac.za> wrote:
+
+> Dear COS332 assistants (or "tutors"),
+>
+> I'm not sure whether any of you have made it yet entirely through the
+> appointment system.  The system does all sorts of funny things.  I think
+> I'm supposed to click on something now, but there is nowhere to click (and
+> some colleagues are stuck too).  However, we will persist and somehow get
+> you appointed.
+>
+> My initial plan was to have most of the demonstrations in the Tuesday
+> afternoon slots (16:30-19:20), and I therefore avoided applicants who were
+> enrolled for COS720.  However, based on this logic I should have avoided
+> applicants taking COS783.  (Oops.)  In any case, there simply were not
+> enough good applications so that I can afford to avoid any qualified
+> applicant.
+>
+> As you probably know, the official time slots are Tuesdays, 16:30-19:20
+> and Fridays, 7;30-10:20.
+>
+> So, I played with the following idea: Appoint most of you for the Tuesday
+> session (which may no longer be feasible, given many of your schedules).
+> This would allow most of the students to demo in the Informatorium.  Then
+> find some alternative slot at a more convenient time, find a venue, and
+> require students who want to use that slot to demo using their own laptops
+> or other equipment.  This would cater for students who do not have laptops,
+> and avoid the 7:30 slot on Fridays.
+>
+> I will talk to the students on Monday to determine how many really need to
+> demo in the Informatorium. If there are not too many, the plan may still
+> work.  I will also begin to find an alternative three hour slot that will
+> work for most of the class and many of you.  The odds are that a slot at a
+> reasonable time (somewhere between 12:30 and 16:20) on Thursdays (or even
+> Friday mornings, about 9:30 to 12:20) would work.
+>
+> In the meantime, will you please indicate whether you are available during
+> the Tuesday slot, so that I have some data to work with?  Please also
+> indicate if you foresee a problem on Thursdays or Fridays for the indicated
+> times.
+>
+> I also attach the schedule.  Demonstrations will only take place during
+> those weeks when assignments are due.
+>
+> Thank you for your willingness to assist (and, in a case or two, to
+> reconsider helping).
+>
+> Regards
+> Martin Olivier
+>
+>
+> This message and attachments are subject to a disclaimer.
+> Please refer to
+> http://upnet.up.ac.za/services/it/documentation/docs/004167.pdf for full
+> details.
+>
+
+This message and attachments are subject to a disclaimer. Please refer to
+http://www.it.up.ac.za/documentation/governance/disclaimer/ for full
+details.
+
+-- 
+This message and attachments are subject to a disclaimer. Please refer to 
+http://www.it.up.ac.za/documentation/governance/disclaimer/ 
+<http://www.it.up.ac.za/documentation/governance/disclaimer/> for full 
+details.
+
+--000000000000ad930f05e45b724e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"><d=
+iv dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">---------- Forwarded message ---------<br>From: <strong class=
+=3D"gmail_sendername" dir=3D"auto">Lionel Ntiranyibagira</strong> <span dir=
+=3D"auto">&lt;<a href=3D"mailto:u19300001@tuks.co.za">u19300001@tuks.co.za<=
+/a>&gt;</span><br>Date: Fri, 4 Mar 2022 at 16:32<br>Subject: Re: COS332 ass=
+istant work<br>To: Martin Olivier &lt;<a href=3D"mailto:molivier@cs.up.ac.z=
+a">molivier@cs.up.ac.za</a>&gt;<br>Cc: Mrs. Rachel Kufakunesu &lt;<a href=
+=3D"mailto:rkufakunesu@gmail.com">rkufakunesu@gmail.com</a>&gt;, Mr. Oluwat=
+okesi Babalola &lt;<a href=3D"mailto:u18041494@tuks.co.za">u18041494@tuks.c=
+o.za</a>&gt;, Mr. Peter Okumbe &lt;<a href=3D"mailto:u18052640@tuks.co.za">=
+u18052640@tuks.co.za</a>&gt;<br></div><br><br><div dir=3D"ltr">Good afterno=
+on Prof,<div><br></div><div>I am also available on Tuesdays at the indicate=
+d time. Friday's slot (9:30-12:20) would be perfect for me as I have a meet=
+ing with my supervisor every 2 weeks Friday from 2:00 pm to 3:00 (sometimes=
+ we go beyond the schedule depending on the number of things to discuss).&n=
+bsp;&nbsp;</div><div><br clear=3D"all"><div><div dir=3D"ltr" data-smartmail=
+=3D"gmail_signature"><div dir=3D"ltr"><div>Regards,</div><div>Lionel</div><=
+div>University of Pretoria</div><div>Master's in Information Technology (In=
+formation Systems)</div><div>MIT(IS)</div></div></div></div><br></div></div=
+><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fr=
+i, 4 Mar 2022 at 14:01, Martin Olivier &lt;<a href=3D"mailto:molivier@cs.up=
+.ac.za" target=3D"_blank">molivier@cs.up.ac.za</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Dear CO=
+S332 assistants (or &quot;tutors&quot;),</div><div><br></div><div>I'm not s=
+ure whether any of you have made it yet entirely through the appointment sy=
+stem.&nbsp; The system does all sorts of funny things.&nbsp; I think I'm su=
+pposed to click on something now, but there is nowhere to click (and some c=
+olleagues are stuck too).&nbsp; However, we will persist and somehow get yo=
+u appointed.</div><div><br></div><div>My initial plan was to have most of t=
+he demonstrations in the Tuesday afternoon slots (16:30-19:20), and I there=
+fore avoided applicants who were enrolled for COS720.&nbsp; However, based =
+on this logic I should have avoided applicants taking COS783.&nbsp; (Oops.)=
+&nbsp; In any case, there simply were not enough good applications so that =
+I can afford to avoid any qualified applicant.&nbsp;</div><div><br></div><d=
+iv>As you probably know, the official time slots are Tuesdays, 16:30-19:20 =
+and Fridays, 7;30-10:20.</div><div><br></div><div>So, I played with the fol=
+lowing idea: Appoint most of you for the Tuesday session (which may no long=
+er be feasible, given many of your schedules).&nbsp; This would allow most =
+of the students to demo in the Informatorium.&nbsp; Then find some alternat=
+ive slot at a more convenient time, find a venue, and require students who =
+want to use that slot to demo using their own laptops or other equipment.&n=
+bsp; This would cater for students who do not have laptops, and avoid the 7=
+:30 slot on Fridays.</div><div><br></div><div>I will talk to the students o=
+n Monday to determine how many really need to demo in the Informatorium. If=
+ there are not too many, the plan may still work.&nbsp; I will also begin t=
+o find an alternative three hour slot that will work for most of the class =
+and many of you.&nbsp; The odds are that a slot at a reasonable time (somew=
+here between 12:30 and 16:20) on Thursdays (or even Friday mornings, about =
+9:30 to 12:20) would work.<br></div><div><br></div><div>In the meantime, wi=
+ll you please indicate whether you are available during the Tuesday slot, s=
+o that I have some data to work with?&nbsp; Please also indicate if you for=
+esee a problem on Thursdays or Fridays for the indicated times.<br></div><d=
+iv><br></div><div>I also attach the schedule.&nbsp; Demonstrations will onl=
+y take place during those weeks when assignments are due.</div><div><br></d=
+iv><div>Thank you for your willingness to assist (and, in a case or two, to=
+ reconsider helping).</div><div><br></div><div>Regards</div><div>Martin Oli=
+vier<br></div><div><br></div></div>
+
+<br>
+<div style=3D"font-family:Arial,Helvetica,sans-serif"><span style=3D"font-s=
+ize:10pt;line-height:105%;font-family:&quot;Segoe UI&quot;,sans-serif">This=
+ message and attachments are subject to a disclaimer.<br>
+Please refer to&nbsp;<a href=3D"http://upnet.up.ac.za/services/it/documenta=
+tion/docs/004167.pdf" target=3D"_blank">http://upnet.up.ac.za/services/it/d=
+ocumentation/docs/004167.pdf</a>&nbsp;</span><span style=3D"font-size:10pt;=
+line-height:105%;font-family:Tahoma,sans-serif">for
+full details.</span></div></blockquote></div>
+
+<br>
+<font face=3D"Arial" size=3D"3">This message and attachments are subject to=
+ a disclaimer. Please refer to=20
+</font><font size=3D"3"><a href=3D"http://www.it.up.ac.za/documentation/gov=
+ernance/disclaimer/" target=3D"_blank"><font face=3D"Arial">http://www.it.u=
+p.ac.za/documentation/governance/disclaimer/</font></a></font><font face=3D=
+"Arial" size=3D"3"> for full details.</font></div></div>
+
+<br>
+<font face=3D"Arial" size=3D"3">This message and attachments are subject to=
+ a disclaimer. Please refer to=20
+</font><font size=3D"3"><a href=3D"http://www.it.up.ac.za/documentation/gov=
+ernance/disclaimer/" target=3D"_blank"><font face=3D"Arial">http://www.it.u=
+p.ac.za/<wbr>documentation/governance/<wbr>disclaimer/</font></a></font><fo=
+nt face=3D"Arial" size=3D"3"> for full details.</font>=
+
+--000000000000ad930f05e45b724e--
