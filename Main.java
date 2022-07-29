@@ -182,7 +182,8 @@ public class Main {
                 if(data.matches("Date:.*")) {
                     rawDate = data.substring(5).trim();
                     // Instantiating the SimpleDateFormat class
-                    SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
+                    //SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
+                    SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy HH:mm");
                     // Parsing the given String to Date object
                     try {
                         date = formatter.parse(rawDate);
