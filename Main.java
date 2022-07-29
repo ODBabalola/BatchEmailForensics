@@ -1011,22 +1011,35 @@ public class Main {
                 }
             }
             case "4" -> {
-                System.out.println("File name for the first email:");
-                String fileN = userInput.nextLine(); // Read user input
-                printAttributes(fileN);
+                System.out.println("Enter the file name for the first email:");
+                JFileChooser chooser = new JFileChooser();
+                chooser.setDialogTitle("Enter the file name for the first email.");
+                chooser.showOpenDialog(null);
+                String fileName = chooser.getSelectedFile().toPath().toString();
                 System.out.println("______________________________________________________");
-                System.out.println("File name for the second email:");
-                String fileN2 = userInput.nextLine(); // Read user input
+                printAttributes(fileName);
                 System.out.println("______________________________________________________");
-                printAttributes(fileN2);
+
+                System.out.println("Enter the file name for the second email:");
+                JFileChooser chooser2 = new JFileChooser();
+                chooser2.setDialogTitle("Enter the file name for the second email.");
+                chooser2.showOpenDialog(null);
+                String fileName2 = chooser2.getSelectedFile().toPath().toString();
+                System.out.println("______________________________________________________");
+                printAttributes(fileName2);
+                
                 System.out.println("______________________________________________________");
                 System.out.println("(i.e. A depth/degree/level of 1 indicates a direct reply.)");
-                checkDescendant(fileN,fileN2);
+                checkDescendant(fileName,fileName2);
+            }
+            case "5" -> {
+
             }
             case "999" -> {
                 String quotedOut = getQuotedReply("M/mail8.txt");
                 System.out.println(quotedOut);
             }
+            default -> throw new IllegalStateException("Unexpected value: " + task);
         }
         System.out.println("______________________________________________________");
     }
