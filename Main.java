@@ -5,9 +5,25 @@ import java.util.*;
 import java.text.SimpleDateFormat; // Import this class to format string dates
 import java.text.ParseException; // Import class for parse exception
 
+// The attributes class here stores the attributes
+// from the forwarded section and reply
+class attributes {
+    public attributes() {
+        from    = "";
+        date    = new Date();
+        subject = "";
+        to      = new ArrayList<>();
+    }
+
+    public String   from;
+    public Date     date;
+    public String   subject;
+    public ArrayList<String>   to;
+}
+
 class mail {
     public mail(String n, Date d, String t, String f,
-                String sub, String sM, String qM) {
+                String sub, String sM, String qM, String frm, ArrayList<String> sTo) {
         name = n;
         date = d;
         replyToId = t;
@@ -17,9 +33,13 @@ class mail {
         fwd = false;    // forwarded mail tag
         subject = sub;
         sentMsg = sM;
-        qtdMsg = qM;
+        qtdMsg  = qM;
+        from    = frm;
+        to  = sTo;
     }
     public String name;
+    public String from;
+    public ArrayList<String> to;
     public Date date;
     public String replyToId;
     public String messageId;
@@ -30,6 +50,16 @@ class mail {
     public String sentMsg;
     public String qtdMsg;
     public double similarity;
+    /*
+        The number of attributes of a forward or reply that match the original
+        From, Date, Subject and To. Making a total of 4 attributes
+     */
+    public attributes atr;
+    /*
+        The percentage x/4 of attribute matches between descendant
+        and ancestor
+     */
+    public double atrSimilarity;
 }
 
 public class Main {
@@ -187,7 +217,6 @@ public class Main {
     }
 
     private static ArrayList<String> getToAddress(String fName) {
-        String[] temp;
         ArrayList<String> sentTos = new ArrayList<>();
 
         try {
@@ -198,38 +227,7 @@ public class Main {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
 
-                if (data.matches("To:.*")) {
-                    if (data.contains(",")) {
-
-                        boolean loop = true;
-                        while (myReader.hasNextLine() && loop) {
-                            if (data.contains(",")) {
-                                parseMail(data, sentTos);
-                            }
-                            else if (data.contains("<")) {
-                                temp = data.split("<");
-                                sentTos.add(temp[1].replace(">", "").trim());
-                            }
-                            else {
-                                if (data.contains(":")) {
-                                    loop = false;
-                                } else {
-                                    sentTos.add(data.trim());
-                                }
-                            }
-                            data = myReader.nextLine(); //*
-                        }
-                    }
-                    else if (data.contains("<")) {
-                        temp = data.split("<");
-                        sentTos.add(temp[1].replace(">", "").trim());
-                    }
-                    else {
-                        temp = data.split(" ");
-                        sentTos.add(temp[1].trim());
-                    }
-                    break;
-                }
+                if (getToSubMethod(myReader, sentTos, data)) break;
             }
 
             myReader.close();
@@ -801,8 +799,12 @@ public class Main {
             return;
         }
 
+        // Retrieves the stored date and similarity attribute from the mail object
+        // and formats it for presentation
+
         String str = String.format("%1$tB %1$td, %1$tY",x.date);
         String str2 = String.format("%.2f", x.similarity);
+        String str3 = String.format("%.2f", x.atrSimilarity);
 
         for (int i = 1; i < depth && i < flag.length; ++i) {
             if (flag[i]) {
@@ -824,13 +826,13 @@ public class Main {
             System.out.println(x.name + ", " + ANSI_BLUE + str + ANSI_RESET); //replaced x.date
         }
         else if (isLast) {
-            treeBranches(x, str, str2);
+            treeBranches(x, str, str2, str3);
             if (depth < flag.length) {
                 flag[depth] = false;
             }
         }
         else {
-            treeBranches(x, str, str2);
+            treeBranches(x, str, str2, str3);
         }
 
         int it = 0;
@@ -848,7 +850,7 @@ public class Main {
         }
     }
 
-    private static void treeBranches(mail x, String str, String str2) {
+    private static void treeBranches(mail x, String str, String str2, String str3) {
          /*
             If the mail is actually a forwarded mail, and not a reply mail.
             It should be shown with a different printout syntax
@@ -859,9 +861,123 @@ public class Main {
         }
         else {
             System.out.print(ANSI_PURPLE + "└── " + ANSI_RESET +  x.name + ", " + ANSI_BLUE + str + ANSI_RESET +
-                    ", Quoted Forward Similarity: " + ANSI_GREEN + str2 + "%" + ANSI_RESET + '\n');
+                    ", Quoted Forward Similarity: " + ANSI_GREEN + str2 + "%" + ANSI_RESET +
+                    ", Quoted Attributes Similarity: " + ANSI_GREEN + str3 + "%" + ANSI_RESET  + '\n');
         }
         x.flag = true;
+    }
+
+    private static attributes getFwdAttributes(String flName) {
+        // Output attributes class object
+        attributes output   = new attributes();
+
+        try {
+            File myObj  = new File(flName);
+            Scanner myReader    = new Scanner(myObj);
+
+            String[] temp;
+            ArrayList<String> sentTos = new ArrayList<>();
+            String  rawDate;
+
+            // Reading and processing the input
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if (data.contains("Forwarded message")) {
+                    while (myReader.hasNextLine()) {
+                        data = myReader.nextLine();
+                        // This ensures the quoted text does not read more lines than it should
+                        if (!data.contains("--") && !data.contains("> wrote:")) {
+                            // Forwarded messages contain attributes of the message being forwarded,
+                            // this is captured here
+
+                            // From attribute captured
+                            if (data.matches("From:.*")) {
+                                if (data.contains("<")) {
+                                    temp = data.split("<");
+                                    output.from = temp[1].replace(">", "").trim();
+                                } else {
+                                    temp    = data.split(" ");
+                                    output.from = temp[1].trim();
+                                }
+                            }
+
+                            // Date attribute captured
+                            if(data.matches("Date:.*")) {
+                                rawDate = data.substring(5).trim();
+                                // Removing this string character is necessary for the date to be formatted
+                                rawDate = rawDate.replace(" at", "");
+                                // Instantiating the SimpleDateFormat class
+                                // The format is different for the normal date and
+                                // forwarded date presentations
+                                SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy HH:mm");
+                                // Parsing the given String to Date object
+                                try {
+                                    output.date = formatter.parse(rawDate);
+                                    //System.out.println("Date object value: " + date);
+                                } catch (ParseException e) {
+                                    System.out.println("An Error Occurred.");
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            // Subject attribute captured
+                            if(data.matches("Subject:.*")) {
+                                output.subject  = data.substring(8).trim();
+                            }
+
+                            // To attribute captured
+                            if (getToSubMethod(myReader, sentTos, data)) output.to   = sentTos;
+                        }
+
+                    }
+                    break;
+                }
+            }
+
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An Error Occurred.");
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    private static boolean getToSubMethod(Scanner myReader, ArrayList<String> sentTos, String data) {
+        String[] temp;
+        if (data.matches("To:.*")) {
+            if (data.contains(",")) {
+
+                boolean loop = true;
+                while (myReader.hasNextLine() && loop) {
+                    if (data.contains(",")) {
+                        parseMail(data, sentTos);
+                    }
+                    else if (data.contains("<")) {
+                        temp = data.split("<");
+                        sentTos.add(temp[1].replace(">", "").trim());
+                    }
+                    else {
+                        if (data.contains(":")) {
+                            loop = false;
+                        } else {
+                            sentTos.add(data.trim());
+                        }
+                    }
+                    data = myReader.nextLine(); //*
+                }
+            }
+            else if (data.contains("<")) {
+                temp = data.split("<");
+                sentTos.add(temp[1].replace(">", "").trim());
+            }
+            else {
+                temp = data.split(" ");
+                sentTos.add(temp[1].trim());
+            }
+            return true;
+        }
+        return false;
     }
 
     public static void main(String[] args) {
@@ -876,9 +992,9 @@ public class Main {
         System.out.println(ANSI_GREEN + ANSI_BOLD + "2" + ANSI_RESET +
                 ": Validate if an email is a forward to another email");
         System.out.println(ANSI_GREEN + ANSI_BOLD + "3" + ANSI_RESET +
-                ": Graphically contextualise email communications");
+                ": Graphically contextualise and authenticate email communications");
         System.out.println(ANSI_GREEN + ANSI_BOLD + "4" + ANSI_RESET +
-                ": Validate if an email is a descendent to another email and to what degree");
+                ": Validate if an email is a 'reply' descendent to another email and to what degree");
         System.out.println("______________________________________________________");
         System.out.print("Enter Task: ");
         String task = userInput.nextLine();
@@ -941,30 +1057,36 @@ public class Main {
                 System.out.println("______________________________________________________");
                 // Retrieve the selected files.
                 File[] files = chooser.getSelectedFiles();
+                // An arraylist object that contains all the email files
+                // transformed into mail objects
                 ArrayList<mail> fls = new ArrayList<>();
 
                 // Create mail objects from all the selected files for querying
-                String path, n,t, f, sub, sM, qM;
+                String path, n,t, f, sub, sM, qM, frm;
+                ArrayList<String> sTo;
                 Date d;
                 for (File fn : files) {
-                    path = fn.toPath().toString();
-                    n = fn.getName();
-                    d = getDate(path);
-                    t = getInReplyTo(path);
-                    f = getMessageID(path);
+                    path    = fn.toPath().toString();
+                    n   = fn.getName();
+                    d   = getDate(path);
+                    t   = getInReplyTo(path);
+                    f   = getMessageID(path);
                     sub = getSubject(path);
-                    sM = getSentMessage(path);
+                    sM  = getSentMessage(path);
                     // If the email does not contain a quoted reply,
                     // the qM variable should store the quoted forward
-                    qM = getQuotedReply(path);
+                    qM  = getQuotedReply(path);
+                    frm = getFromAddress(path);
+                    sTo = getToAddress(path);
                     if (qM.equals("")) {
-                        qM = getQuotedForward(path);
-                        mail node = new mail(n, d, t, f, sub, sM, qM);
-                        node.fwd = true;
+                        qM  = getQuotedForward(path);
+                        mail node   = new mail(n, d, t, f, sub, sM, qM, frm , sTo);
+                        node.fwd    = true;
+                        node.atr    = getFwdAttributes(path);
                         fls.add(node);
                     }
                     else {
-                        fls.add(new mail(n, d, t, f, sub, sM, qM));
+                        fls.add(new mail(n, d, t, f, sub, sM, qM, frm, sTo));
                     }
 
                 }
@@ -977,15 +1099,40 @@ public class Main {
                     validQuote = false;
 
                     for (mail l : srtM) {
+                        // count variable is used to check for matching attributes
+                        float count = 0;
                         // check if mail l is a reply
                         toValid = mail.messageId.equals(l.replyToId);
                         validDate = l.date.compareTo(mail.date) > 0;
                         validSubject = checkSub(mail.subject, l.subject);
                         // For program efficiency sake
+                        // All suspected replies and forwards will be added to
+                        // the mail objects replies field
                         if (toValid & validDate & validSubject) {
                             value = findSimilarity(mail.sentMsg, l.qtdMsg);
                             if (value >= 0.8) validQuote = true;
                             l.similarity = value * 100;
+
+                            if (l.fwd) {
+                                if (l.atr.from.equals(mail.from)) {
+                                    count++;
+                                }
+
+                                if (l.atr.date.equals(mail.date)) {
+                                    count++;
+                                }
+
+                                if (l.atr.subject.equals(mail.subject)) {
+                                    count++;
+                                }
+
+                                if (l.atr.to.equals(mail.to)) {
+                                    count++;
+                                }
+
+                                l.atrSimilarity = (count/4) * 100;
+                            }
+
 
                             if (validQuote) {
                                 mail.replies.add(l);
@@ -1031,9 +1178,6 @@ public class Main {
                 System.out.println("______________________________________________________");
                 System.out.println("(i.e. A depth/degree/level of 1 indicates a direct reply.)");
                 checkDescendant(fileName,fileName2);
-            }
-            case "5" -> {
-
             }
             case "999" -> {
                 String quotedOut = getQuotedReply("M/mail8.txt");
