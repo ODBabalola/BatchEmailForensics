@@ -255,7 +255,7 @@ public class Main {
          */
         String format = "%-20s%s%n";
 
-        System.out.printf(format, ANSI_BOLD + "The From Address: \t" + ANSI_RESET, fromAddress);
+        System.out.printf(format, ANSI_BOLD + "The Sender: \t\t" + ANSI_RESET, fromAddress);
         System.out.printf(format, ANSI_BOLD + "The Subject: \t\t" + ANSI_RESET, subject);
         System.out.printf(format, ANSI_BOLD + "The Date: \t\t\t" + ANSI_RESET, date);
 
@@ -271,7 +271,7 @@ public class Main {
             }
         }
 
-        System.out.printf(format, ANSI_BOLD + "The To Address: \t" + ANSI_RESET, output);
+        System.out.printf(format, ANSI_BOLD + "The Destination: \t" + ANSI_RESET, output);
         //System.out.println();
     }
 
