@@ -989,13 +989,13 @@ public class Main {
         Scanner userInput = new Scanner(System.in); // Create a Scanner object
         System.out.println(ANSI_BLUE + ANSI_BOLD + "TASK" + ANSI_RESET);
         System.out.println(ANSI_GREEN + ANSI_BOLD + "1" + ANSI_RESET +
-                ": Validate if an email is a reply to another email");
+                ": Check if an email is a reply to another email");
         System.out.println(ANSI_GREEN + ANSI_BOLD + "2" + ANSI_RESET +
-                ": Validate if an email is a forward to another email");
+                ": Check if an email is a forward to another email");
         System.out.println(ANSI_GREEN + ANSI_BOLD + "3" + ANSI_RESET +
                 ": Graphically contextualise and authenticate email communications");
         System.out.println(ANSI_GREEN + ANSI_BOLD + "4" + ANSI_RESET +
-                ": Validate if an email is a 'reply' descendent to another email and to what degree");
+                ": Verify if and to what degree an email is a 'reply' from another email");
         System.out.println("______________________________________________________");
         System.out.print("Enter Task: ");
         String task = userInput.nextLine();
