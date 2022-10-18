@@ -54,7 +54,7 @@ class mail {
         The number of attributes of a forward or reply that match the original
         From, Date, Subject and To. Making a total of 4 attributes
      */
-    public attributes atr;
+    public attributes atr = null;
     /*
         The percentage x/4 of attribute matches between descendant
         and ancestor
@@ -371,13 +371,13 @@ public class Main {
         for (String sent : S) {
             if (sent.equals(fromAddress2)) {
                 validSent = true;
-                System.out.println(ANSI_GREEN + "✓ The first emails 'to address' contains the" +
-                        " corresponding email's 'from address':" + sent + ANSI_RESET);
+                System.out.println(ANSI_GREEN + "✓ The first email's destination address contains the" +
+                        " corresponding email's sender address: " + sent + ANSI_RESET);
             }
         }
 
         if (!validSent) {
-            System.out.println(ANSI_RED + "x The first email's 'to address' does not contain " +
+            System.out.println(ANSI_RED + "x The first email's destination address does not contain " +
                     "the corresponding email's address" + ANSI_RESET);
         }
 
@@ -385,14 +385,14 @@ public class Main {
         for (String s : S2) {
             if (s.equals(fromAddress)) {
                 valid = true;
-                System.out.println(ANSI_GREEN + "✓ The first email's 'from address' and corresponding email's " +
-                        "'to address' are equivalent: " + s + ANSI_RESET);
+                System.out.println(ANSI_GREEN + "✓ The first email's sender address and corresponding email's " +
+                        "destination address are equivalent: " + s + ANSI_RESET);
             }
         }
 
         if (!valid) {
-            System.out.println(ANSI_RED + "x The first email's 'from address' and corresponding email's 'to address' " +
-                    "are not equivalent" + ANSI_RESET);
+            System.out.println(ANSI_RED + "x The first email's sender address and corresponding email's destination " +
+                    "address are not equivalent" + ANSI_RESET);
         }
 
         if (messageId.equals(replyToId)) {
@@ -445,14 +445,14 @@ public class Main {
         for (String sent : S) {
             if (sent.equals(fromAddress2) || fromAddress.equals(fromAddress2)) {
                 validSent = true;
-                System.out.println(ANSI_GREEN + "✓ The original email was sent to the second email's from address: "
+                System.out.println(ANSI_GREEN + "✓ The original email was sent to the second email's sender address: "
                         + sent + ANSI_RESET);
             }
         }
 
         if (!validSent) {
             System.out.println(ANSI_RED + "x The original email was not sent to the second " +
-                    "from email's address" + ANSI_RESET);
+                    "email's sender address" + ANSI_RESET);
         }
 
         if (messageId.equals(replyToId)) {
@@ -858,7 +858,8 @@ public class Main {
          */
         if (!x.fwd) {
             System.out.print(ANSI_YELLOW + "└── " + ANSI_RESET +  x.name + ", " + ANSI_BLUE + str + ANSI_RESET +
-                    ", Quoted Similarity: " + ANSI_GREEN + str2 + "%" + ANSI_RESET + '\n');
+                    ", Quoted Similarity: " + ANSI_GREEN + str2 + "%" + ANSI_RESET +
+                    ", Quoted Attributes Similarity: " + ANSI_GREEN + str3 + "%" + ANSI_RESET + '\n');
         }
         else {
             System.out.print(ANSI_PURPLE + "└── " + ANSI_RESET +  x.name + ", " + ANSI_BLUE + str + ANSI_RESET +
@@ -944,6 +945,95 @@ public class Main {
         return output;
     }
 
+    private static attributes getRpyAttributes(String flName) {
+        // Output attributes class object
+        attributes output   = new attributes();
+
+        // Extract 'from' and 'date', from the quoted reply
+        try {
+            File myObj = new File(flName);
+            Scanner myReader = new Scanner(myObj);
+
+            // Reading and processing the input
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+
+                /*
+                In the case the email is actually the forward of a reply,
+                the forwarded message indicator would appear first and
+                thus an empty string should be returned
+                 */
+                if (data.contains("Forwarded message")) {
+                    return null;
+                }
+
+                if (data.contains("wrote:")) {
+                    String[] arrOfStr = data.split(","); // creates 3 elements
+
+                    if (arrOfStr.length < 2) {
+                        return null;
+                    }
+
+                    String[] temp;
+                    String fromData = arrOfStr[2];
+                    String dateData = arrOfStr[1];
+
+
+                    String rawDate;
+
+                    // Extracting 'from' attribute
+                    if (fromData.contains("<")) {
+                        temp = fromData.split("<");
+                        output.from = temp[1].replace("> wrote:", "").trim();
+                    } else {
+                        temp    = fromData.split(" ");
+                        output.from = temp[1].replace("wrote:", "").trim();
+                    }
+
+                    // Extracting 'date' attribute
+                    rawDate = dateData.trim();
+
+                    if (rawDate.contains("at")) {
+                        // Removing this string character is necessary for the date to be formatted
+                        rawDate = rawDate.replace(" at", "");
+                        // Instantiating the SimpleDateFormat class
+                        // The format is different for the normal date and
+                        // forwarded date presentations
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm");
+                        // Parsing the given String to Date object
+                        try {
+                            output.date = formatter.parse(rawDate);
+                        } catch (ParseException e) {
+                            System.out.println("An error occurred parsing the date.");
+                            e.printStackTrace();
+                        }
+                    } else {
+                        // The format is different for the normal date and
+                        // forwarded date presentations
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+                        try {
+                            output.date = formatter.parse(rawDate);
+                        } catch (ParseException e) {
+                            System.out.println("An error occurred parsing the date.");
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                    return output;
+                }
+            }
+
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An Error Occurred.");
+            e.printStackTrace();
+        }
+
+        return output;
+    }
+
     private static boolean getToSubMethod(Scanner myReader, ArrayList<String> sentTos, String data) {
         String[] temp;
         if (data.matches("To:.*")) {
@@ -995,7 +1085,7 @@ public class Main {
         System.out.println(ANSI_GREEN + ANSI_BOLD + "3" + ANSI_RESET +
                 ": Graphically contextualise and authenticate email communications");
         System.out.println(ANSI_GREEN + ANSI_BOLD + "4" + ANSI_RESET +
-                ": Verify if and to what degree an email is a 'reply' from another email");
+                ": Verify if and to what degree an email is a reply from another email");
         System.out.println("______________________________________________________");
         System.out.print("Enter Task: ");
         String task = userInput.nextLine();
@@ -1080,6 +1170,7 @@ public class Main {
                     frm = getFromAddress(path);
                     sTo = getToAddress(path);
                     if (qM.equals("")) {
+                        // Forwards
                         qM  = getQuotedForward(path);
                         mail node   = new mail(n, d, t, f, sub, sM, qM, frm , sTo);
                         node.fwd    = true;
@@ -1087,7 +1178,10 @@ public class Main {
                         fls.add(node);
                     }
                     else {
-                        fls.add(new mail(n, d, t, f, sub, sM, qM, frm, sTo));
+                        // Replies
+                        mail rNode  = new mail(n, d, t, f, sub, sM, qM, frm, sTo);
+                        rNode.atr   = getRpyAttributes(path);
+                        fls.add(rNode);
                     }
 
                 }
@@ -1114,6 +1208,7 @@ public class Main {
                             if (value >= 0.8) validQuote = true;
                             l.similarity = value * 100;
 
+                            // Calculate attribute similarities for forwards and replies
                             if (l.fwd) {
                                 if (l.atr.from.equals(mail.from)) {
                                     count++;
@@ -1133,7 +1228,21 @@ public class Main {
 
                                 l.atrSimilarity = (count/4) * 100;
                             }
+                            else {
+                                if (l.atr == null) {
+                                    l.atrSimilarity = -1;
+                                } else {
+                                    if (l.atr.from.equals(mail.from)) {
+                                        count++;
+                                    }
 
+                                    if (l.atr.date.equals(mail.date)) {
+                                        count++;
+                                    }
+
+                                    l.atrSimilarity = (count/2) * 100;
+                                }
+                            }
 
                             if (validQuote) {
                                 mail.replies.add(l);
